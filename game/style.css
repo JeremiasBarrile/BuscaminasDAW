@@ -1,2 +1,9 @@
-const matrix = document.getElementById("matrix");
-matrix.textContent = "Hola";
+#matrix {
+    display: grid;
+    gap: 12px;
+  }
+  .square {
+    width: 20px;
+    height: 20px;
+    background-color: #333;
+  }

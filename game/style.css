@@ -1,9 +1,12 @@
+#matrixExt{
+  display: flex;
+  justify-content: center;
+  margin: 100px;
+}
+
 #matrix {
     display: grid;
-    gap: 12px;
-  }
-  .square {
-    width: 20px;
-    height: 20px;
-    background-color: #333;
+    background-color: #383838;
+    gap: 3px;
+    padding: 3px;
   }

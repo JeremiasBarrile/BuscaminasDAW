@@ -1,7 +1,16 @@
+#header{
+  display: flex;
+  justify-content: center;
+  align-content: flex-end;
+  padding-top: 30px;
+}
+.board{
+  padding: 4px;
+}
 #matrixExt{
   display: flex;
   justify-content: center;
-  margin: 100px;
+padding: 20px;
 }
 
 #matrix {

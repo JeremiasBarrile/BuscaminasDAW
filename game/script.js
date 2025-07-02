@@ -1,31 +1,21 @@
 const matrix = document.getElementById("matrix");
+const level = document.getElementById("level");
+const reset = document.getElementById("reset")
 let firstClick = true;
 let mines = [];
-
-const niveles = {
-  PRINCIPIANTE: {
-    filas: 9,
-    columnas: 9,
-    minas: 10
-  },
-  INTERMEDIO: {
-    filas: 16,
-    columnas: 16,
-    minas: 40
-  },
-  AVANZADO: {
-    filas: 30,
-    columnas: 16,
-    minas: 99
-  }
+const  gameLevels= {
+  principiante: { rows: 8, columns: 8, mines: 10 },
+  intermedio:   { rows: 16, columns: 16, mines: 40 },
+  avanzado:     { rows: 30, columns: 40, mines: 99 }
 };
+let currLevel = {...gameLevels.principiante};          //nivel actual por Defecto
 
 
-function generateMatrix(rows, columns) {
+function generateMatrix(levelConfig) {
+  const {rows,columns} = levelConfig;     //Antes se ingresaban dos variables en la funcion, se reemplazo por el objeto levelConfig y se extraen las variables rows y columns
     matrix.innerHTML = "";
     matrix.style.gridTemplateColumns = `repeat(${columns}, 23px)`;
     matrix.style.gridTemplateRows = `repeat(${rows}, 23px)`;
-  
     for (let i = 0; i < rows; i++) {
       for (let j= 0; j < columns; j++){
         const square = document.createElement("div");
@@ -38,7 +28,9 @@ function generateMatrix(rows, columns) {
     }
 }
 
-function generateMines(mines,rows,columns){
+function generateMines(levelConfig){
+  const {rows,columns,mines} = levelConfig;
+  console.log(columns);
   let arrMines = [];
   while(arrMines.length < mines){
     let x = Math.floor(Math.random() * rows);
@@ -84,8 +76,20 @@ function showMines() {
     }
   }
 }
+  generateMatrix(currLevel);
+ 
+  //Genera la Matriz html
+level.addEventListener("change", () => {
+  const selectedLevel = level.value;
+  if (gameLevels[selectedLevel]) {                //Validador en caso de que se agrege una opcion mas en el form de niveles disponibles y no se encuentre cargada en el objeto gameLevels
+    currLevel = { ...gameLevels[selectedLevel] }; //Actualiza currLevel 
+    generateMatrix(currLevel);
+    firstClick = true;
+  } else {
+    console.warn("Nivel no reconocido:", selectedLevel);
+  }
 
-generateMatrix(8, 8); //Genera la Matriz html
+});
 
         //FLUJO PRINCIPAL//
 //Evento al presionar cada cuadrado
@@ -95,12 +99,11 @@ document.addEventListener("click", (e) => {
     const id = clicked.id;
     if(firstClick){
        do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
-         mines = generateMines(8,8,8);      // a cada una de las funciones y lo solucionamos en 3 lineas
+         mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
        } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
       firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
     }
-    if(compare(id,mines)){
-       
+    if(compare(id,mines)){ 
        showMines();
     }else {
     clicked.style.backgroundColor = "#d0d0d0";

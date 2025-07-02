@@ -5,9 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscamina</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="../favicon_io/favicon.ico" type="image/x-icon">
     <script src="./script.js" defer></script>
 </head>
 <body>
+    <div id="header">
+        <div class="board">
+            <div id="minesCounter">|  |</div>
+        </div>
+        <div class="board">
+            <button id="reset">Reset</button>
+        </div>
+        <div class="board">
+            <form>
+                <select id="level">
+                    <option value="principiante">Principiante</option>
+                    <option value="intermedio">Intermedio</option>
+                    <option value="avanzado">Avanzado</option>
+                </select>
+            </form>
+        </div>
+    </div>
     <div id="matrixExt">
         <div id="matrix"></div>
     </div> 

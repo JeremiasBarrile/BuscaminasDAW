@@ -10,3 +10,8 @@
     gap: 3px;
     padding: 3px;
   }
+
+  .square.clicked {
+  background-color: #d0d0d0;
+  border: inset 2px #888;
+}

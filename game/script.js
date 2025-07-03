@@ -8,9 +8,11 @@ const matrix = document.getElementById("matrix");
 const level = document.getElementById("level");
 const reset = document.getElementById("reset")
 const minesCounter = document.getElementById("minesCounter");
-//let contador
-minesCounter.textContent = "10" ;
-let firstClick = true;
+/* Variables contador minas */
+minesCounter.textContent = (currLevel.mines) ;  // No hay minas marcadas
+let markedMines = 0;                   // Contador minas marcadas
+
+let firstClick = true;                                  //Bandera de primer click en juego
 let mines = [];
 
 function generateMatrix(levelConfig) {
@@ -22,11 +24,8 @@ function generateMatrix(levelConfig) {
       for (let j= 0; j < columns; j++){
         const square = document.createElement("div");
         square.id =`sq${i}_${j}`; // Genera squares con id "sq{fila}_{columna}"
-        square.className = "none"
-        square.style.width = "23px";
-        square.style.height = "23px";
-        square.style.backgroundColor = "#a0a0a0";
-        matrix.appendChild(square);
+        square.className = "none square";
+        matrix.appendChild(square);//Genera cada div del square como un tag hijo de matrix
       }
     }
 }
@@ -75,14 +74,36 @@ function showMines() {
     let id = `sq${a}_${b}`;
     let clicked = document.getElementById(id);
     if (clicked) {
-      clicked.style.backgroundColor = "#9B2A88";
+      clicked.className = "mine-hit square";
     }
   }
 }
+/*Actualizador contador minas */ 
+//             ++: Suma 1
+//             --: Resta 1
+//              (): Reset
+function updateMinesCounter(action){
+  let result;
+  if(action=== "++"){
+    markedMines--;
+    result = currLevel.mines - markedMines;
+    minesCounter.textContent = result;
+  } else if(action === "--"){
+    markedMines++;
+    result = currLevel.mines - markedMines;
+    minesCounter.textContent = result;
+  } else {
+    markedMines = 0;
+    minesCounter.textContent = currLevel.mines;
+  }
+}
+
   generateMatrix(currLevel);
+
   //Evento click boton Reset
 reset.addEventListener("click", ()=> {
     generateMatrix(currLevel);
+    updateMinesCounter();
     firstClick = true;
 })
 
@@ -92,6 +113,7 @@ level.addEventListener("change", () => {
   if (gameLevels[selectedLevel]) {                //Validador en caso de que se agrege una opcion mas en el form de niveles disponibles y no se encuentre cargada en el objeto gameLevels
     currLevel = { ...gameLevels[selectedLevel] }; //Actualiza currLevel 
     generateMatrix(currLevel);
+    updateMinesCounter();                         //Actualiza contador por defecto () resetea al numero de minas del nivel
     firstClick = true;
   } else {
     console.warn("Nivel no reconocido:", selectedLevel);
@@ -105,7 +127,8 @@ document.addEventListener("click", (e) => {
   if (e.target.id.startsWith("sq")) {
     const clicked = e.target;
     const id = clicked.id;
-    if(firstClick){
+    if (!clicked.classList.contains("flagged") && !clicked.classList.contains("questioned") ){
+      if(firstClick){
        do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
          mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
        } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
@@ -113,26 +136,25 @@ document.addEventListener("click", (e) => {
     }
     if(compare(id,mines)){ 
        showMines();
-    }else {
-    clicked.style.backgroundColor = "#d0d0d0";
-    clicked.style.border = "inset 2px #888";
-    clicked.className = "used";
-
-    }
+    }else{
+      clicked.className = "used";         // Clase "used" elimina todo el contenido interno
+    }}
   }
 });
+/* funcionalidad boton derecho (contexmenu) en celdas con cambio de clase según su estado*/
 document.addEventListener("contextmenu", (e) =>{
   e.preventDefault(); //Evita que aparesca el menu del navegador
     if (e.target.id.startsWith("sq")) {
     const clicked = e.target;
     if(clicked.classList.contains("none")){
-      clicked.className = "flagged"; // reemplaza todas las clases por una unica clase "flagged" evitando usar: clicked.classList.remove("none"); clicked.classList.add("flagged");
+      clicked.className = "flagged square"; // reemplaza todas las clases por una unica clase "flagged" evitando usar: clicked.classList.remove("none"); clicked.classList.add("flagged");
+      updateMinesCounter("--");
     } else if(clicked.classList.contains("flagged")){
-      clicked.className = "questioned";
+      clicked.className = "questioned square";
+      updateMinesCounter("++");
     } else if(clicked.classList.contains("questioned")){
-      clicked.className = "none";
-    } 
-    }
+      clicked.className = "none square";
+    } }
 });
 
 

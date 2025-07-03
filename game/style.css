@@ -24,3 +24,35 @@ padding: 20px;
   background-color: #d0d0d0;
   border: inset 2px #888;
 }
+/* Clases que manejan estados de squares*/
+/*
+.revealed	        "revelado"	                Celda descubierta sin mina
+.flagged	        "marcado con bandera"       Celda marcada como posible mina
+.questioned	      "con duda"                  Celda marcada con signo de pregunta
+.mine-hit	        "mina activada"	            Celda con mina activada por el jugador
+*/
+.none::before{
+  content: "";
+}
+.revealed{
+  background-color: #d0d0d0;
+  border: inset 2px #888;
+}
+
+.flagged{
+
+}
+.flagged::before {
+  content: "🚩";
+}
+  .questioned::before {
+  content: "❓";
+}
+
+.mine-hit{
+
+}
+
+.used::before{
+  content: "";
+}

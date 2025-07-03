@@ -1,15 +1,17 @@
-const matrix = document.getElementById("matrix");
-const level = document.getElementById("level");
-const reset = document.getElementById("reset")
-let firstClick = true;
-let mines = [];
 const  gameLevels= {
   principiante: { rows: 8, columns: 8, mines: 10 },
   intermedio:   { rows: 16, columns: 16, mines: 40 },
   avanzado:     { rows: 30, columns: 40, mines: 99 }
 };
 let currLevel = {...gameLevels.principiante};          //nivel actual por Defecto
-
+const matrix = document.getElementById("matrix");
+const level = document.getElementById("level");
+const reset = document.getElementById("reset")
+const minesCounter = document.getElementById("minesCounter");
+//let contador
+minesCounter.textContent = "10" ;
+let firstClick = true;
+let mines = [];
 
 function generateMatrix(levelConfig) {
   const {rows,columns} = levelConfig;     //Antes se ingresaban dos variables en la funcion, se reemplazo por el objeto levelConfig y se extraen las variables rows y columns
@@ -20,6 +22,7 @@ function generateMatrix(levelConfig) {
       for (let j= 0; j < columns; j++){
         const square = document.createElement("div");
         square.id =`sq${i}_${j}`; // Genera squares con id "sq{fila}_{columna}"
+        square.className = "none"
         square.style.width = "23px";
         square.style.height = "23px";
         square.style.backgroundColor = "#a0a0a0";
@@ -77,7 +80,12 @@ function showMines() {
   }
 }
   generateMatrix(currLevel);
- 
+  //Evento click boton Reset
+reset.addEventListener("click", ()=> {
+    generateMatrix(currLevel);
+    firstClick = true;
+})
+
   //Genera la Matriz html
 level.addEventListener("change", () => {
   const selectedLevel = level.value;
@@ -108,8 +116,23 @@ document.addEventListener("click", (e) => {
     }else {
     clicked.style.backgroundColor = "#d0d0d0";
     clicked.style.border = "inset 2px #888";
+    clicked.className = "used";
+
     }
   }
+});
+document.addEventListener("contextmenu", (e) =>{
+  e.preventDefault(); //Evita que aparesca el menu del navegador
+    if (e.target.id.startsWith("sq")) {
+    const clicked = e.target;
+    if(clicked.classList.contains("none")){
+      clicked.className = "flagged"; // reemplaza todas las clases por una unica clase "flagged" evitando usar: clicked.classList.remove("none"); clicked.classList.add("flagged");
+    } else if(clicked.classList.contains("flagged")){
+      clicked.className = "questioned";
+    } else if(clicked.classList.contains("questioned")){
+      clicked.className = "none";
+    } 
+    }
 });
 
 

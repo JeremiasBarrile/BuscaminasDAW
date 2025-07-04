@@ -60,11 +60,7 @@ function checkRepeated(arr,arrPair){
 function compare(id,mines){ 
     const posStr = id.substring(2); // "0_1"
     const [row, col] = posStr.split("_").map(Number); // [0, 1]
-    if(checkRepeated(mines,[row, col])){
-      return true;
-    } else {
-      return false;
-    }
+    return checkRepeated(mines,[row, col]);
 }
 
 function showMines() {
@@ -127,18 +123,19 @@ document.addEventListener("click", (e) => {
   if (e.target.id.startsWith("sq")) {
     const clicked = e.target;
     const id = clicked.id;
-    if (!clicked.classList.contains("flagged") && !clicked.classList.contains("questioned") ){
+    if (!clicked.classList.contains("flagged") && !clicked.classList.contains("questioned") ){ //No se puede apretar un boton con bandera o signo de pregunta
       if(firstClick){
-       do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
-         mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
-       } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
-      firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
+        do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
+          mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
+        } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
+        firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
+      }
+      if(compare(id,mines)){                //Compara posicion presionada con arreglo de minas
+        showMines();
+      }else{
+        clicked.className = "used";         // Clase "used" elimina todo el contenido interno
+      }
     }
-    if(compare(id,mines)){ 
-       showMines();
-    }else{
-      clicked.className = "used";         // Clase "used" elimina todo el contenido interno
-    }}
   }
 });
 /* funcionalidad boton derecho (contexmenu) en celdas con cambio de clase según su estado*/

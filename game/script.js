@@ -1,50 +1,9 @@
-const  gameLevels= {
-  principiante: { rows: 8, columns: 8, mines: 10 },
-  intermedio:   { rows: 16, columns: 16, mines: 40 },
-  avanzado:     { rows: 30, columns: 40, mines: 99 }
-};
-let currLevel = {...gameLevels.principiante};          //nivel actual por Defecto
-const matrix = document.getElementById("matrix");
-const level = document.getElementById("level");
-const reset = document.getElementById("reset")
-const minesCounter = document.getElementById("minesCounter");
 /* Variables contador minas */
 minesCounter.textContent = (currLevel.mines) ;  // No hay minas marcadas
 let markedMines = 0;                   // Contador minas marcadas
 
 let firstClick = true;                                  //Bandera de primer click en juego
 let mines = [];
-
-function generateMatrix(levelConfig) {
-  const {rows,columns} = levelConfig;     //Antes se ingresaban dos variables en la funcion, se reemplazo por el objeto levelConfig y se extraen las variables rows y columns
-    matrix.innerHTML = "";
-    matrix.style.gridTemplateColumns = `repeat(${columns}, 23px)`;
-    matrix.style.gridTemplateRows = `repeat(${rows}, 23px)`;
-    for (let i = 0; i < rows; i++) {
-      for (let j= 0; j < columns; j++){
-        const square = document.createElement("div");
-        square.id =`sq${i}_${j}`; // Genera squares con id "sq{fila}_{columna}"
-        square.className = "none square";
-        matrix.appendChild(square);//Genera cada div del square como un tag hijo de matrix
-      }
-    }
-}
-
-function generateMines(levelConfig){
-  const {rows,columns,mines} = levelConfig;
-  console.log(columns);
-  let arrMines = [];
-  while(arrMines.length < mines){
-    let x = Math.floor(Math.random() * rows);
-    let y = Math.floor(Math.random() * columns);
-
-    if(!checkRepeated(arrMines,[x,y])){ //Compara x e y pasado como arreglo con el arreglo generado de minas (arrMines)
-      arrMines.push([x,y]);
-    }
-  }
-  console.log(arrMines);
-  return arrMines;
-}
 
 //Compara el arreglo de las minas con un arreglo de tipo [0,1]
 function checkRepeated(arr,arrPair){
@@ -63,59 +22,18 @@ function compare(id,mines){
     return checkRepeated(mines,[row, col]);
 }
 
-function showMines() {
-  for (let i = 0; i < mines.length; i++) {
-    let a = mines[i][0];
-    let b = mines[i][1];
-    let id = `sq${a}_${b}`;
-    let clicked = document.getElementById(id);
-    if (clicked) {
-      clicked.className = "mine-hit square";
-    }
-  }
-}
-/*Actualizador contador minas */ 
-//             ++: Suma 1
-//             --: Resta 1
-//              (): Reset
-function updateMinesCounter(action){
-  let result;
-  if(action=== "++"){
-    markedMines--;
-    result = currLevel.mines - markedMines;
-    minesCounter.textContent = result;
-  } else if(action === "--"){
-    markedMines++;
-    result = currLevel.mines - markedMines;
-    minesCounter.textContent = result;
-  } else {
-    markedMines = 0;
-    minesCounter.textContent = currLevel.mines;
-  }
-}
 
-  generateMatrix(currLevel);
+
+
+
 
   //Evento click boton Reset
 reset.addEventListener("click", ()=> {
-    generateMatrix(currLevel);
+    generateHtmlMatrix(currLevel);
     updateMinesCounter();
     firstClick = true;
 })
 
-  //Genera la Matriz html
-level.addEventListener("change", () => {
-  const selectedLevel = level.value;
-  if (gameLevels[selectedLevel]) {                //Validador en caso de que se agrege una opcion mas en el form de niveles disponibles y no se encuentre cargada en el objeto gameLevels
-    currLevel = { ...gameLevels[selectedLevel] }; //Actualiza currLevel 
-    generateMatrix(currLevel);
-    updateMinesCounter();                         //Actualiza contador por defecto () resetea al numero de minas del nivel
-    firstClick = true;
-  } else {
-    console.warn("Nivel no reconocido:", selectedLevel);
-  }
-
-});
 
         //FLUJO PRINCIPAL//
 //Evento al presionar cada cuadrado
@@ -153,6 +71,3 @@ document.addEventListener("contextmenu", (e) =>{
       clicked.className = "none square";
     } }
 });
-
-
-

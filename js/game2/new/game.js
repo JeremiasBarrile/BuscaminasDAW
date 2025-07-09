@@ -1,5 +1,5 @@
 import { directions } from "./const.js";
-import { randomInt, checkRepeated, removeRepeatedPairs} from "./utils.js";
+import { randomInt, checkRepeated, removeRepeatedPairs, shuffleArray} from "./utils.js";
 
 //Generar matriz celdas-objeto - Cada cerda almacena el estado del juego (visible, flagged, revelado)
 function generateMatrix(levelConfig){
@@ -19,7 +19,7 @@ function generateMatrix(levelConfig){
     }
     return matrix;
 };
-//Genera SafeZone
+//Genera SafeZone (reemplazar arreglos por Set)
 function generateSafeZone(levelConfig, pos) {
   let minSafeSize = 2
   const { rows, columns } = levelConfig;
@@ -46,23 +46,82 @@ for(let i=0; i< safeZone.length; i++){
     secondSafeZone.push([outsideRow,outsideCol]);
   }
 }
-  //removeRepeatedPairs(safeZone); //Elimina las posiciones repetidas
+  removeRepeatedPairs(safeZone); //Elimina las posiciones repetidas
   return secondSafeZone;
 };
+// Posiciones las Minas, evitando safezone 
+function generateMines(matrix, safeZone, level) {
+  const totalMines = level.mines;
+  const rows = matrix.length;
+  const cols = matrix[0].length;
 
+  // Convertimos safeZone a Set para búsqueda rápida
+  const safeSet = new Set(safeZone.map(([r, c]) => `${r}-${c}`));
 
+  // 1. Generar lista de posiciones disponibles (excluyendo la zona segura)
+  const availablePositions = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const key = `${r}-${c}`;
+      if (!safeSet.has(key)) {
+        availablePositions.push([r, c]);
+      }
+    }
+  }
 
-function startGame(level,pos){
-    const rows = 8;
-    const columns = 8;
+  // 2. Mezclar las posiciones disponibles
+  const shuffled = shuffleArray(availablePositions);
+
+  // 3. Tomar las primeras N posiciones y colocar minas
+  for (let i = 0; i < totalMines && i < shuffled.length; i++) {
+    const [r, c] = shuffled[i];
+    matrix[r][c].isMine = true;
+  }
+
+  return matrix; // opcional, si querés usar en cadena
+}
+
+function completeMatrix(matrix){ //Completa la matriz con con cantidad de Minas al rededor
+  const rows = matrix.length;
+  const columns = matrix[0].length;
+
+  for(let r=0; r < rows; r++){
+    for(let c=0; c < columns; c++){
+      const cell = matrix[r][c];
+      if(!cell.isMine){ //Si la celda no es una mina ejecuta el codigo interno
+        let counter=0;
+        for(let d=0;d < directions.length; d++){
+          const posRow = r + directions[d][0];
+          const posColumn = c + directions[d][1];
+
+          //const isInside = newRow >= 0 && newRow < rows && newCol >= 0 && newCol < columns;
+          if(posRow >= 0 && posRow < rows && posColumn >= 0 && posColumn < columns){
+            if(matrix[posRow][posColumn].isMine){
+              counter++;
+            }
+          }
+        }
+      cell.minesAround = counter;
+      }
+    }
+  }
+  return matrix;
+}
+
+export function startGame(level,pos){
     let matrix = generateMatrix(level);         //Genera Matriz vacia
     let safeZone = generateSafeZone(level, pos);    //genera zona segura al rededor de la posicion seleccionada
+    matrix = generateMines(matrix, safeZone, level)
+    matrix = completeMatrix(matrix);
+
     console.log(safeZone);
+    console.log (matrix);
+    return matrix;
     // console.log(matrix);
     // console.log(matrix[0])
     // console.log(matrix[0][7].isMine)
     // console.log(safeZone);
 };
 
-startGame({ rows: 8, columns: 8, mines: 10 }, [5,4]);
+//startGame({ rows: 8, columns: 8, mines: 10 }, [5,4]);
 

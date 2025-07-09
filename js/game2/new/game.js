@@ -1,3 +1,5 @@
+import { directions } from "./const.js";
+import { randomInt, checkRepeated, removeRepeatedPairs} from "./utils.js";
 
 //Generar matriz celdas-objeto - Cada cerda almacena el estado del juego (visible, flagged, revelado)
 function generateMatrix(levelConfig){
@@ -17,80 +19,50 @@ function generateMatrix(levelConfig){
     }
     return matrix;
 };
-//Generado por IA Mejorar o Entender
+//Genera SafeZone
 function generateSafeZone(levelConfig, pos) {
-  let minSafeSize = 9
+  let minSafeSize = 2
   const { rows, columns } = levelConfig;
-  const visited = new Set();
   const safeZone = [];
-  const stack = [pos];
+  safeZone.push(pos);
+do {
+  let randomPos = safeZone[randomInt(0,safeZone.length - 1)]; //obtene posicion random del arreglo safeZone
+  const dir = directions[randomInt(0,7)];//Obtene posicion rando de las direcciones que envuelven a una posicion
+  const newRow = randomPos[0] + dir[0];
+  const newCol = randomPos[1] + dir[1];
 
-  const key = ([r, c]) => `${r}-${c}`;
-  visited.add(key(pos));
-
-  while (stack.length && safeZone.length < minSafeSize) {
-    const [r, c] = stack.pop();
-    safeZone.push([r, c]);
-
-    const neighbors = getShuffledNeighbors(r, c, rows, columns);
-
-    for (const [nr, nc] of neighbors) {
-      const k = key([nr, nc]);
-      if (!visited.has(k)) {
-        visited.add(k);
-        stack.push([nr, nc]); // agregamos a explorar
-      }
-    }
+  const isInside = newRow >= 0 && newRow < rows && newCol >= 0 && newCol < columns;
+  const notRepeated = !checkRepeated(safeZone,[newRow,newCol]);
+  if( isInside && notRepeated){
+    safeZone.push([newRow,newCol]);
+    minSafeSize--;
   }
-
-  // Opcional: ordenamos
-  safeZone.sort((a, b) => (a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]));
-  return safeZone;
-};
-function getShuffledNeighbors(r, c, rows, columns) {
-  const directions = [
-    [-1, -1], [-1, 0], [-1, 1],
-    [ 0, -1],          [ 0, 1],
-    [ 1, -1], [ 1, 0], [ 1, 1]
-  ];
-
-  const neighbors = [];
-
-  for (const [dr, dc] of directions) {
-    const nr = r + dr;
-    const nc = c + dc;
-    if (nr >= 0 && nr < rows && nc >= 0 && nc < columns) {
-      neighbors.push([nr, nc]);
-    }
+} while (minSafeSize > 0); // Genera las primeras posiciones, al salir de este While, generará los contornos que rodean cada posicion del array safezone
+const secondSafeZone = [...safeZone];
+for(let i=0; i< safeZone.length; i++){
+  for(let j=0; j< directions.length; j++){
+    const outsideRow = safeZone[i][0] + directions[j][0];
+    const outsideCol = safeZone[i][1] + directions[j][0];
+    secondSafeZone.push([outsideRow,outsideCol]);
   }
-
-  return neighbors.sort(() => Math.random() - 0.5); // mezcla aleatoria
 }
-function showSafeZone(safeZone) {
-  for (let i = 0; i < safeZone.length; i++) {
-    let row = safeZone[i][0];
-    let col = safeZone[i][1];
-    let id = `sq${row}_${col}`;
-    let cell = document.getElementById(id);
-
-    if (cell) {
-      cell.className = "mine-hit square";
-    }
-  }
+  //removeRepeatedPairs(safeZone); //Elimina las posiciones repetidas
+  return secondSafeZone;
 };
 
-export function startGame(level,pos){
+
+
+function startGame(level,pos){
     const rows = 8;
     const columns = 8;
     let matrix = generateMatrix(level);         //Genera Matriz vacia
     let safeZone = generateSafeZone(level, pos);    //genera zona segura al rededor de la posicion seleccionada
-    showSafeZone(safeZone);
-
-    console.log(matrix);
-    console.log(matrix[0])
-    console.log(matrix[0][7].isMine)
     console.log(safeZone);
+    // console.log(matrix);
+    // console.log(matrix[0])
+    // console.log(matrix[0][7].isMine)
+    // console.log(safeZone);
 };
 
-startGame({ rows: 8, columns: 8, mines: 10 }, [5,5]);
+startGame({ rows: 8, columns: 8, mines: 10 }, [5,4]);
 

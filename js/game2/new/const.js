@@ -4,7 +4,11 @@ export const  gameLevels= {
   avanzado:     { rows: 30, columns: 40, mines: 99 }
 };
 
-
+ export const directions = [
+    [-1, -1], [-1, 0], [-1, 1],
+    [ 0, -1],          [ 0, 1],
+    [ 1, -1], [ 1, 0], [ 1, 1]
+  ];
 
 
 //UI

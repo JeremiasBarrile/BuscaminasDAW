@@ -7,13 +7,13 @@
 .board{
   padding: 4px;
 }
-#matrixExt{
+#extGrid{
   display: flex;
   justify-content: center;
   padding: 20px;
 }
 
-#matrix {
+#grid {
     display: grid;
     background-color: #383838;
     gap: 3px;
@@ -69,7 +69,6 @@
   border: inset 2px #888
 }
 .used::before{
-;
   content: "";
 }
 .square {

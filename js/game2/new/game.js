@@ -1,5 +1,8 @@
 import { directions } from "./const.js";
-import { randomInt, checkRepeated, removeRepeatedPairs, shuffleArray} from "./utils.js";
+import { randomInt, checkRepeated, removeRepeatedPairs, shuffleArray, getNeighbor} from "./utils.js";
+
+let firstClick = true;
+let matrix =[];
 
 //Generar matriz celdas-objeto - Cada cerda almacena el estado del juego (visible, flagged, revelado)
 function generateMatrix(levelConfig){
@@ -12,7 +15,9 @@ function generateMatrix(levelConfig){
             isMine: false,
             minesAround: 0,
             revealed: false,
-            flagged: false
+            flagged: false,
+            row: r,
+            col: c
             });
         }
         matrix.push(row);
@@ -46,8 +51,7 @@ for(let i=0; i< safeZone.length; i++){
     secondSafeZone.push([outsideRow,outsideCol]);
   }
 }
-  removeRepeatedPairs(safeZone); //Elimina las posiciones repetidas
-  return secondSafeZone;
+  return removeRepeatedPairs(secondSafeZone);;
 };
 // Posiciones las Minas, evitando safezone 
 function generateMines(matrix, safeZone, level) {
@@ -71,6 +75,7 @@ function generateMines(matrix, safeZone, level) {
 
   // 2. Mezclar las posiciones disponibles
   const shuffled = shuffleArray(availablePositions);
+  console.log("Minas:",shuffled);
 
   // 3. Tomar las primeras N posiciones y colocar minas
   for (let i = 0; i < totalMines && i < shuffled.length; i++) {
@@ -108,14 +113,14 @@ function completeMatrix(matrix){ //Completa la matriz con con cantidad de Minas 
   return matrix;
 }
 
-export function startGame(level,pos){
-    let matrix = generateMatrix(level);         //Genera Matriz vacia
+function startGame(matrix,level,pos){
+    matrix = generateMatrix(level);         //Genera Matriz vacia
     let safeZone = generateSafeZone(level, pos);    //genera zona segura al rededor de la posicion seleccionada
     matrix = generateMines(matrix, safeZone, level)
     matrix = completeMatrix(matrix);
 
-    console.log(safeZone);
-    console.log (matrix);
+    //console.log(safeZone);
+    //console.log (matrix);
     return matrix;
     // console.log(matrix);
     // console.log(matrix[0])
@@ -125,3 +130,42 @@ export function startGame(level,pos){
 
 //startGame({ rows: 8, columns: 8, mines: 10 }, [5,4]);
 
+export function gameLink(level,pos){
+  if(firstClick){
+    matrix = startGame(matrix,level,pos);
+    firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
+  }
+   showCell(matrix,pos);
+}
+
+function showCell(matrix,pos){
+  const x = pos[0];
+  const y = pos[1];
+  const cell = document.getElementById(`sq${x}_${y}`);
+
+  if(!matrix[x][y].isMine){
+    matrix.revealed = true;
+    cell.className = "used";
+    cell.textContent = matrix[x][y].minesAround;
+    showAround(matrix,pos)
+  }
+  
+};
+
+function showAround(matrix,[x,y]){
+  for(let i=0; i < directions.length; i++ ){
+    let neighbor = getNeighbor(matrix,[x,y],i);
+    if(neighbor!== null){
+      if (neighbor !== null && !neighbor.revealed && !neighbor.isMine && !neighbor.flagged) {
+        neighbor.revealed = true;
+        const x = neighbor.row;
+        const y = neighbor.col;
+        const cell = document.getElementById(`sq${x}_${y}`);
+        cell.className = "used";
+        cell.textContent = neighbor.minesAround;
+        
+        showAround(matrix,[x,y])
+     }
+    }
+  }
+};

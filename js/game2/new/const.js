@@ -14,5 +14,5 @@ export const  gameLevels= {
 //UI
 export const htmlGrid = document.getElementById("htmlGrid");
 export const level = document.getElementById("level");
-const reset = document.getElementById("reset")
+const reset = document.getElementById("reset");
 const minesCounter = document.getElementById("minesCounter");

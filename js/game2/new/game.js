@@ -3,6 +3,7 @@ import { randomInt, checkRepeated, removeRepeatedPairs, shuffleArray, getNeighbo
 
 let firstClick = true;
 let matrix =[];
+let mines = [];
 
 //Generar matriz celdas-objeto - Cada cerda almacena el estado del juego (visible, flagged, revelado)
 function generateMatrix(levelConfig){
@@ -55,7 +56,6 @@ for(let i=0; i< safeZone.length; i++){
 };
 // Posiciones las Minas, evitando safezone 
 function generateMines(matrix, safeZone, level) {
-  const totalMines = level.mines;
   const rows = matrix.length;
   const cols = matrix[0].length;
 
@@ -74,12 +74,15 @@ function generateMines(matrix, safeZone, level) {
   }
 
   // 2. Mezclar las posiciones disponibles
+
   const shuffled = shuffleArray(availablePositions);
-  console.log("Minas:",shuffled);
+  
+  mines = shuffled.slice(0,level.mines);
+  console.log("test1:",mines);
 
   // 3. Tomar las primeras N posiciones y colocar minas
-  for (let i = 0; i < totalMines && i < shuffled.length; i++) {
-    const [r, c] = shuffled[i];
+  for (let i = 0; i < shuffled.length; i++) {
+    const [r, c] = shuffled[i]; // 
     matrix[r][c].isMine = true;
   }
 
@@ -118,14 +121,7 @@ function startGame(matrix,level,pos){
     let safeZone = generateSafeZone(level, pos);    //genera zona segura al rededor de la posicion seleccionada
     matrix = generateMines(matrix, safeZone, level)
     matrix = completeMatrix(matrix);
-
-    //console.log(safeZone);
-    //console.log (matrix);
     return matrix;
-    // console.log(matrix);
-    // console.log(matrix[0])
-    // console.log(matrix[0][7].isMine)
-    // console.log(safeZone);
 };
 
 //startGame({ rows: 8, columns: 8, mines: 10 }, [5,4]);
@@ -139,6 +135,7 @@ export function gameLink(level,pos){
 }
 
 function showCell(matrix,pos){
+  console.log(matrix);
   const x = pos[0];
   const y = pos[1];
   const cell = document.getElementById(`sq${x}_${y}`);
@@ -147,7 +144,12 @@ function showCell(matrix,pos){
     matrix.revealed = true;
     cell.className = "used";
     cell.textContent = matrix[x][y].minesAround;
-    showAround(matrix,pos)
+    if(matrix[x][y].minesAround === 0){
+      showAround(matrix,pos)
+      cell.textContent = "";
+    }
+  } else {
+    showMines(matrix,mines); //termino el juego
   }
   
 };
@@ -155,7 +157,6 @@ function showCell(matrix,pos){
 function showAround(matrix,[x,y]){
   for(let i=0; i < directions.length; i++ ){
     let neighbor = getNeighbor(matrix,[x,y],i);
-    if(neighbor!== null){
       if (neighbor !== null && !neighbor.revealed && !neighbor.isMine && !neighbor.flagged) {
         neighbor.revealed = true;
         const x = neighbor.row;
@@ -163,9 +164,20 @@ function showAround(matrix,[x,y]){
         const cell = document.getElementById(`sq${x}_${y}`);
         cell.className = "used";
         cell.textContent = neighbor.minesAround;
-        
-        showAround(matrix,[x,y])
+        if(neighbor.minesAround === 0){
+          cell.textContent = "";
+          showAround(matrix,[x,y])
+        }
      }
-    }
   }
 };
+
+function showMines(matrix,mines){
+for(let i=0; i<mines.length; i++){
+  const [row,col] = mines[i];
+  if(matrix[row][col].isMine){
+    const cell = document.getElementById(`sq${row}_${col}`);
+    cell.className = "mine-hit";
+  }
+}
+}

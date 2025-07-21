@@ -24,7 +24,7 @@ export function removeRepeatedPairs(arr) {
   return unique;
 }
 
-//Mezcla el arreglo 
+//Mezcla el arreglo Fisher-Yates Shuffle
 export function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

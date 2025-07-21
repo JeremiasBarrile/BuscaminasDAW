@@ -39,7 +39,6 @@ function generateMatrix(levelConfig) {
       }
     }
 }
-
 function generateMines(levelConfig){
   var {rows,columns,mines} = levelConfig;
   console.log(columns);
@@ -55,7 +54,6 @@ function generateMines(levelConfig){
   console.log(arrMines);
   return arrMines;
 }
-
 //Compara el arreglo de las minas con un arreglo de tipo [0,1]
 function checkRepeated(arr,arrPair){
   for(var i=0; i < arr.length; i++){
@@ -65,13 +63,11 @@ function checkRepeated(arr,arrPair){
   }
   return false;
 }
-
-function convertToArray(id){
+function convertIdToArray(id){
   var posStr = id.substring(2); // "0_1"
   var [row, col] = posStr.split("_").map(Number);
   return [row, col];
 }
-
 //Compara id pasado con el arreglo de minas generadas
 function compare(id,mines){ 
     var posStr = id.substring(2); // "0_1"
@@ -82,7 +78,6 @@ function compare(id,mines){
       return false;
     }
 }
-
 function showMines() {
   for (var i = 0; i < mines.length; i++) {
     var a = mines[i][0];
@@ -114,20 +109,18 @@ function updateMinesCounter(action){
   }
 }
 generateMatrix(currLevel);
-
-
 // ██████    ██████  ███    ███
 // ██   ██  ██    ██ ████  ████
 // ██    ██ ██    ██ ██ ████ ██
 // ██   ██  ██    ██ ██  ██  ██
 // █████     ██████  ██      ██
-//Evento click boton Reset
+//Evento asociado a boton Reset
 reset.addEventListener("click", function() {
     generateMatrix(currLevel);
     updateMinesCounter();
     firstClick = true;
 })
-  //Genera la Matriz html
+//Evento asociado a selector de nivel, Genera la Matriz html de acuerdo a la selección
 level.addEventListener("change", function() {
   var selectedLevel = level.value;
   if (gameLevels[selectedLevel]) {                //Validador en caso de que se agrege una opcion mas en el form de niveles disponibles y no se encuentre cargada en el objeto gameLevels
@@ -140,11 +133,12 @@ level.addEventListener("change", function() {
   }
 
 });
-//Evento al presionar cada cuadrado
+//Evento global al presionar cada celda (sq)
 document.addEventListener("click", function(e) {
   if (e.target.id.startsWith("sq")) {
     var clicked = e.target;
     var id = clicked.id;
+    var idArr = convertIdToArray(id);  //Guarda el arreglo de la posicion clickeada
     if (!clicked.classList.contains("flagged") && !clicked.classList.contains("questioned") ){
       if(firstClick){
        do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
@@ -155,9 +149,8 @@ document.addEventListener("click", function(e) {
     if(compare(id,mines)){ 
        showMines();
     }else{
-      console.log(id);
-      console.log(convierteId(id))
-      clicked.className = "used";         // Clase "used" elimina todo el contenido interno
+
+      showcell(idArr,clicked);
     }}
   }
 });
@@ -176,3 +169,7 @@ document.addEventListener("contextmenu", function(e) {
       clicked.className = "none square";
     } }
 });
+
+function showcell(idArr,clicked){
+  clicked.className = "used";         // Clase "used" elimina todo el contenido interno
+}

@@ -5,6 +5,13 @@ var  gameLevels= {
   intermedio:   { rows: 16, columns: 16, mines: 40 },
   avanzado:     { rows: 30, columns: 40, mines: 99 }
 };
+var directions = [
+    [-1, -1], [-1, 0], [-1, 1],
+    [ 0, -1],          [ 0, 1],
+    [ 1, -1], [ 1, 0], [ 1, 1]
+];
+
+var visitedCells = {};
 
 var matrix = document.getElementById("matrix");
 var level = document.getElementById("level");
@@ -68,15 +75,16 @@ function convertIdToArray(id){
   var [row, col] = posStr.split("_").map(Number);
   return [row, col];
 }
+function convertArraytoId(){
+
+}
 //Compara id pasado con el arreglo de minas generadas
-function compare(id,mines){ 
-    var posStr = id.substring(2); // "0_1"
-    var [row, col] = posStr.split("_").map(Number); // [0, 1]
-    if(checkRepeated(mines,[row, col])){
-      return true;
-    } else {
-      return false;
-    }
+function compare([row, col],mines){
+  if(checkRepeated(mines,[row, col])){
+    return true;
+  } else {
+    return false;
+  }
 }
 function showMines() {
   for (var i = 0; i < mines.length; i++) {
@@ -133,31 +141,10 @@ level.addEventListener("change", function() {
   }
 
 });
-//Evento global al presionar cada celda (sq)
-document.addEventListener("click", function(e) {
-  if (e.target.id.startsWith("sq")) {
-    var clicked = e.target;
-    var id = clicked.id;
-    var idArr = convertIdToArray(id);  //Guarda el arreglo de la posicion clickeada
-    if (!clicked.classList.contains("flagged") && !clicked.classList.contains("questioned") ){
-      if(firstClick){
-       do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
-         mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
-       } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
-      firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
-    }
-    if(compare(id,mines)){ 
-       showMines();
-    }else{
-
-      showcell(idArr,clicked);
-    }}
-  }
-});
 /* funcionalidad boton derecho (contexmenu) en celdas con cambio de clase según su estado*/
 document.addEventListener("contextmenu", function(e) {
   e.preventDefault(); //Evita que aparesca el menu del navegador
-    if (e.target.id.startsWith("sq")) {
+    if (e.target.id.indexOf("sq") === 0) {
     var clicked = e.target;
     if(clicked.classList.contains("none")){
       clicked.className = "flagged square"; // reemplaza todas las clases por una unica clase "flagged" evitando usar: clicked.classList.remove("none"); clicked.classList.add("flagged");
@@ -169,7 +156,72 @@ document.addEventListener("contextmenu", function(e) {
       clicked.className = "none square";
     } }
 });
+//Evento global al presionar cada celda (sq)
+document.addEventListener("click", function(e) {
+  if (e.target.id.indexOf("sq") === 0) {
+    var clicked = e.target;
+    var id = convertIdToArray(clicked.id);  //Arreglo de la posicion [x,y]   
 
-function showcell(idArr,clicked){
-  clicked.className = "used";         // Clase "used" elimina todo el contenido interno
+    if (!clicked.classList.contains("flagged") && !clicked.classList.contains("questioned") ){
+      if(firstClick){
+       do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
+         mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
+       } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
+      firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
+    }
+
+    if(compare(id,mines)){  //Compara si hay una mina en esa posicion
+       showMines();
+    } else {
+      showCell(id);
+
+      var visited = Object.keys(visitedCells).length;
+      var totalCells = currLevel.rows * currLevel.columns;
+      var difference = visited + currLevel.mines;
+
+      if (difference === totalCells) {
+        alert("🎉 ¡Juego finalizado! Has ganado.");
+      }
+    }}
+  }
+});
+
+
+
+function showCell([row,col]) {
+  var cellId = row + "_" + col;
+
+  if (visitedCells[cellId]) { //evitamos un bucle y mantenemos control de celdas visitadas
+  return;
+  }
+  visitedCells[cellId] = true;
+
+  var minesCounter = 0;
+
+  for (var i = 0; i < directions.length; i++) {
+    var x = row + directions[i][0];
+    var y = col + directions[i][1];
+
+    if (x >= 0 && y >= 0 && x < currLevel.rows && y < currLevel.columns) {
+      if (compare([x, y], mines)) {
+        minesCounter++;
+      }
+    }
+  }
+
+  var cell = document.getElementById("sq" + row + "_" + col);
+  cell.className = "used";
+
+  if (minesCounter === 0) {
+    for (var j = 0; j < directions.length; j++) {
+      var xx = row + directions[j][0];
+      var yy = col + directions[j][1];
+
+      if (xx >= 0 && yy >= 0 && xx < currLevel.rows && yy < currLevel.columns) {
+        showCell([xx, yy]);
+      }
+    }
+  } else {
+    cell.textContent = minesCounter;
+  }
 }

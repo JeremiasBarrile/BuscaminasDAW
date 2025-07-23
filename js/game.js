@@ -48,7 +48,6 @@ function generateMatrix(levelConfig) {
 }
 function generateMines(levelConfig){
   var {rows,columns,mines} = levelConfig;
-  console.log(columns);
   var arrMines = [];
   while(arrMines.length < mines){
     var x = Math.floor(Math.random() * rows);
@@ -127,6 +126,7 @@ reset.addEventListener("click", function() {
     generateMatrix(currLevel);
     updateMinesCounter();
     firstClick = true;
+    visitedCells = {};
 })
 //Evento asociado a selector de nivel, Genera la Matriz html de acuerdo a la selección
 level.addEventListener("change", function() {
@@ -136,6 +136,7 @@ level.addEventListener("change", function() {
     generateMatrix(currLevel);
     updateMinesCounter();                         //Actualiza contador por defecto () resetea al numero de minas del nivel
     firstClick = true;
+    visitedCells = {};
   } else {
     console.warn("Nivel no reconocido:", selectedLevel);
   }
@@ -188,21 +189,20 @@ document.addEventListener("click", function(e) {
 
 
 
-function showCell([row,col]) {
+function showCell(coord) { //ES5 no existe desestructuración (coord)--->([row,col])
+  var row = coord[0];
+  var col = coord[1];
   var cellId = row + "_" + col;
-
+  var minesCounter = 0;
   if (visitedCells[cellId]) { //evitamos un bucle y mantenemos control de celdas visitadas
   return;
   }
   visitedCells[cellId] = true;
-
-  var minesCounter = 0;
-
   for (var i = 0; i < directions.length; i++) {
     var x = row + directions[i][0];
     var y = col + directions[i][1];
 
-    if (x >= 0 && y >= 0 && x < currLevel.rows && y < currLevel.columns) {
+    if (x >= 0 && y >= 0 && x < currLevel.rows && y < currLevel.columns) { //Verificamos que no se encuentre fuera de la matriz
       if (compare([x, y], mines)) {
         minesCounter++;
       }

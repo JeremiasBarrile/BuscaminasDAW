@@ -7,6 +7,7 @@
 .board{
   padding: 4px;
 }
+
 #matrixExt{
   display: flex;
   justify-content: center;
@@ -18,7 +19,7 @@
     background-color: #383838;
     gap: 3px;
     padding: 3px;
-  }
+}
 
   /* .square.clicked {
   background-color: #d0d0d0;
@@ -69,7 +70,6 @@
   border: inset 2px #888
 }
 .used::before{
-;
   content: "";
 }
 .square {

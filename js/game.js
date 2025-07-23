@@ -25,6 +25,7 @@ var currLevel = gameLevels["principiante"];
 minesCounter.textContent = (currLevel.mines) ;  // No hay minas marcadas
 var flaggedMines = 0;                           // Contador minas marcadas
 var firstClick = true;                          //Bandera de primer click en juego
+var gameOver =false;                            //Bandera de juego finalizado
 var mines = [];
 
 //  ██████   █████  ███    ███ ███████
@@ -74,8 +75,12 @@ function convertIdToArray(id){
   var [row, col] = posStr.split("_").map(Number);
   return [row, col];
 }
-function convertArraytoId(){
-
+function resetGame(){
+    generateMatrix(currLevel);
+    updateMinesCounter();                         //Actualiza contador por defecto () resetea al numero de minas del nivel
+    firstClick = true;
+    gameOver = false;
+    visitedCells = {};
 }
 //Compara id pasado con el arreglo de minas generadas
 function compare([row, col],mines){
@@ -122,21 +127,19 @@ generateMatrix(currLevel);
 // ██   ██  ██    ██ ██  ██  ██
 // █████     ██████  ██      ██
 //Evento asociado a boton Reset
-reset.addEventListener("click", function() {
-    generateMatrix(currLevel);
-    updateMinesCounter();
-    firstClick = true;
-    visitedCells = {};
-})
+reset.addEventListener("click", resetGame );//Llama a la funcion resetGame
+document.addEventListener("keydown", function(e) {
+  if (e.code === "Space") {
+    e.preventDefault();                   // Previene la accion default de scroll en la barra espaciadora
+    resetGame();
+  }
+});
 //Evento asociado a selector de nivel, Genera la Matriz html de acuerdo a la selección
 level.addEventListener("change", function() {
   var selectedLevel = level.value;
   if (gameLevels[selectedLevel]) {                //Validador en caso de que se agrege una opcion mas en el form de niveles disponibles y no se encuentre cargada en el objeto gameLevels
     currLevel = gameLevels[selectedLevel];
-    generateMatrix(currLevel);
-    updateMinesCounter();                         //Actualiza contador por defecto () resetea al numero de minas del nivel
-    firstClick = true;
-    visitedCells = {};
+    resetGame();
   } else {
     console.warn("Nivel no reconocido:", selectedLevel);
   }
@@ -144,6 +147,7 @@ level.addEventListener("change", function() {
 });
 /* funcionalidad boton derecho (contexmenu) en celdas con cambio de clase según su estado*/
 document.addEventListener("contextmenu", function(e) {
+  if (gameOver) return;                      //Si game over es true, termina el evento
   e.preventDefault(); //Evita que aparesca el menu del navegador
     if (e.target.id.indexOf("sq") === 0) {
     var clicked = e.target;
@@ -159,6 +163,7 @@ document.addEventListener("contextmenu", function(e) {
 });
 //Evento global al presionar cada celda (sq)
 document.addEventListener("click", function(e) {
+  if (gameOver) return;                      //Si game over es true, termina el evento
   if (e.target.id.indexOf("sq") === 0) {
     var clicked = e.target;
     var id = convertIdToArray(clicked.id);  //Arreglo de la posicion [x,y]   
@@ -172,7 +177,9 @@ document.addEventListener("click", function(e) {
     }
 
     if(compare(id,mines)){  //Compara si hay una mina en esa posicion
-       showMines();
+        showMines();
+        gameOver = true;
+        alert("🎉 ¡Juego finalizado! Has perdido.");
     } else {
       showCell(id);
 
@@ -181,6 +188,7 @@ document.addEventListener("click", function(e) {
       var difference = visited + currLevel.mines;
 
       if (difference === totalCells) {
+        gameOver = true;
         alert("🎉 ¡Juego finalizado! Has ganado.");
       }
     }}
@@ -194,14 +202,16 @@ function showCell(coord) { //ES5 no existe desestructuración (coord)--->([row,c
   var col = coord[1];
   var cellId = row + "_" + col;
   var minesCounter = 0;
+
   if (visitedCells[cellId]) { //evitamos un bucle y mantenemos control de celdas visitadas
   return;
   }
+
   visitedCells[cellId] = true;
+
   for (var i = 0; i < directions.length; i++) {
     var x = row + directions[i][0];
     var y = col + directions[i][1];
-
     if (x >= 0 && y >= 0 && x < currLevel.rows && y < currLevel.columns) { //Verificamos que no se encuentre fuera de la matriz
       if (compare([x, y], mines)) {
         minesCounter++;
@@ -224,4 +234,4 @@ function showCell(coord) { //ES5 no existe desestructuración (coord)--->([row,c
   } else {
     cell.textContent = minesCounter;
   }
-}
+};

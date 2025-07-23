@@ -10,17 +10,13 @@ var directions = [
     [ 0, -1],          [ 0, 1],
     [ 1, -1], [ 1, 0], [ 1, 1]
 ];
-
 var visitedCells = {};
-
 var matrix = document.getElementById("matrix");
 var level = document.getElementById("level");
 var reset = document.getElementById("reset");
 var minesCounter = document.getElementById("minesCounter");
-
 //nivel actual por Defecto, igual a currLevel = {...gameLevels.principiante};         
 var currLevel = gameLevels["principiante"];
-
 /* Variables contador minas */
 minesCounter.textContent = (currLevel.mines) ;  // No hay minas marcadas
 var flaggedMines = 0;                           // Contador minas marcadas
@@ -115,6 +111,42 @@ function updateMinesCounter(action){
     minesCounter.textContent = currLevel.mines;
   }
 }
+function showCell(coord) { //ES5 no existe desestructuración (coord)--->([row,col])
+  var row = coord[0];
+  var col = coord[1];
+  var cellId = row + "_" + col;
+  var minesCounter = 0;
+  if (visitedCells[cellId]) { //evitamos un bucle y mantenemos control de celdas visitadas
+  return;
+  }
+  visitedCells[cellId] = true;
+  for (var i = 0; i < directions.length; i++) {
+    var x = row + directions[i][0];
+    var y = col + directions[i][1];
+
+    if (x >= 0 && y >= 0 && x < currLevel.rows && y < currLevel.columns) { //Verificamos que no se encuentre fuera de la matriz
+      if (compare([x, y], mines)) {
+        minesCounter++;
+      }
+    }
+  }
+
+  var cell = document.getElementById("sq" + row + "_" + col);
+  cell.className = "used";
+
+  if (minesCounter === 0) {
+    for (var j = 0; j < directions.length; j++) {
+      var xx = row + directions[j][0];
+      var yy = col + directions[j][1];
+
+      if (xx >= 0 && yy >= 0 && xx < currLevel.rows && yy < currLevel.columns) {
+        showCell([xx, yy]);
+      }
+    }
+  } else {
+    cell.textContent = minesCounter;
+  }
+}
 generateMatrix(currLevel);
 // ██████    ██████  ███    ███
 // ██   ██  ██    ██ ████  ████
@@ -187,41 +219,3 @@ document.addEventListener("click", function(e) {
   }
 });
 
-
-
-function showCell(coord) { //ES5 no existe desestructuración (coord)--->([row,col])
-  var row = coord[0];
-  var col = coord[1];
-  var cellId = row + "_" + col;
-  var minesCounter = 0;
-  if (visitedCells[cellId]) { //evitamos un bucle y mantenemos control de celdas visitadas
-  return;
-  }
-  visitedCells[cellId] = true;
-  for (var i = 0; i < directions.length; i++) {
-    var x = row + directions[i][0];
-    var y = col + directions[i][1];
-
-    if (x >= 0 && y >= 0 && x < currLevel.rows && y < currLevel.columns) { //Verificamos que no se encuentre fuera de la matriz
-      if (compare([x, y], mines)) {
-        minesCounter++;
-      }
-    }
-  }
-
-  var cell = document.getElementById("sq" + row + "_" + col);
-  cell.className = "used";
-
-  if (minesCounter === 0) {
-    for (var j = 0; j < directions.length; j++) {
-      var xx = row + directions[j][0];
-      var yy = col + directions[j][1];
-
-      if (xx >= 0 && yy >= 0 && xx < currLevel.rows && yy < currLevel.columns) {
-        showCell([xx, yy]);
-      }
-    }
-  } else {
-    cell.textContent = minesCounter;
-  }
-}

@@ -2,9 +2,11 @@
 //CONST
 var  gameLevels= {
   principiante: { rows: 8, columns: 8, mines: 10 },
-  intermedio:   { rows: 16, columns: 16, mines: 40 },
-  avanzado:     { rows: 30, columns: 40, mines: 99 }
+  intermedio:   { rows: 12, columns: 12, mines: 25 },
+  avanzado:     { rows: 16, columns: 16, mines: 40 }
 };
+
+
 var directions = [
     [-1, -1], [-1, 0], [-1, 1],
     [ 0, -1],          [ 0, 1],

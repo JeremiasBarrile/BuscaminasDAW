@@ -1,9 +1,9 @@
 
 //CONST
 var  gameLevels= {
-  principiante: { rows: 8, columns: 8, mines: 10 },
-  intermedio:   { rows: 16, columns: 16, mines: 40 },
-  avanzado:     { rows: 30, columns: 40, mines: 99 }
+  beginner:       { rows: 8, columns: 8, mines: 10 },
+  intermediate:   { rows: 12, columns: 12, mines: 25 },
+  advanced:       { rows: 16, columns: 16, mines: 40 }
 };
 var directions = [
     [-1, -1], [-1, 0], [-1, 1],
@@ -18,8 +18,8 @@ var level = document.getElementById("level");
 var reset = document.getElementById("reset");
 var minesCounter = document.getElementById("minesCounter");
 
-//nivel actual por Defecto, igual a currLevel = {...gameLevels.principiante};         
-var currLevel = gameLevels["principiante"];
+//nivel actual por Defecto, igual a currLevel = {...gameLevels.beginner};         
+var currLevel = gameLevels["beginner"];
 
 /* Variables contador minas */
 minesCounter.textContent = (currLevel.mines) ;  // No hay minas marcadas
@@ -48,7 +48,7 @@ function generateMatrix(levelConfig) {
         matrix.appendChild(square);//Genera cada div del square como un tag hijo de matrix
       }
     }
-}
+};
 function generateMines(levelConfig){
   var {rows,columns,mines} = levelConfig;
   var arrMines = [];
@@ -62,21 +62,20 @@ function generateMines(levelConfig){
   }
   console.log(arrMines);
   return arrMines;
-}
-//Compara el arreglo de las minas con un arreglo de tipo [0,1]
-function checkRepeated(arr,arrPair){
+};
+function checkRepeated(arr,arrPair){       //Compara el arreglo de las minas con un arreglo de tipo [0,1]
   for(var i=0; i < arr.length; i++){
       if(arr[i][0] === arrPair[0] && arr[i][1] === arrPair[1]){
        return true; 
       }
   }
   return false;
-}
+};
 function convertIdToArray(id){
   var posStr = id.substring(2); // "0_1"
   var [row, col] = posStr.split("_").map(Number);
   return [row, col];
-}
+};
 function resetGame(){
     generateMatrix(currLevel);
     updateMinesCounter();                         //Actualiza contador por defecto () resetea al numero de minas del nivel
@@ -84,15 +83,14 @@ function resetGame(){
     gameOver = false;
     visitedCells = {};
     resetTimer();
-}
-//Compara id pasado con el arreglo de minas generadas
-function compare([row, col],mines){
+};
+function compare([row, col],mines){       //Compara id pasado con el arreglo de minas generadas
   if(checkRepeated(mines,[row, col])){
     return true;
   } else {
     return false;
   }
-}
+};
 function showMines() {
   for (var i = 0; i < mines.length; i++) {
     var a = mines[i][0];
@@ -111,7 +109,7 @@ function showMines() {
 //              (): Reset
 function updateMinesCounter(action){
   var result;
-  if(action=== "++"){
+  if(action === "++"){
     flaggedMines--;
     result = currLevel.mines - flaggedMines;
     minesCounter.textContent = result;
@@ -123,91 +121,8 @@ function updateMinesCounter(action){
     flaggedMines = 0;
     minesCounter.textContent = currLevel.mines;
   }
-}
-
-
-
-
-generateMatrix(currLevel);
-// ██████    ██████  ███    ███
-// ██   ██  ██    ██ ████  ████
-// ██    ██ ██    ██ ██ ████ ██
-// ██   ██  ██    ██ ██  ██  ██
-// █████     ██████  ██      ██
-//Evento asociado a boton Reset
-reset.addEventListener("click", resetGame );//Llama a la funcion resetGame
-document.addEventListener("keydown", function(e) {
-  if (e.code === "Space") {
-    e.preventDefault();                   // Previene la accion default de scroll en la barra espaciadora
-    resetGame();
-  }
-});
-//Evento asociado a selector de nivel, Genera la Matriz html de acuerdo a la selección
-level.addEventListener("change", function() {
-  var selectedLevel = level.value;
-  if (gameLevels[selectedLevel]) {                //Validador en caso de que se agrege una opcion mas en el form de niveles disponibles y no se encuentre cargada en el objeto gameLevels
-    currLevel = gameLevels[selectedLevel];
-    resetGame();
-  } else {
-    console.warn("Nivel no reconocido:", selectedLevel);
-  }
-
-});
-/* funcionalidad boton derecho (contexmenu) en celdas con cambio de clase según su estado*/
-document.addEventListener("contextmenu", function(e) {
-  if (gameOver) return;                      //Si game over es true, termina el evento
-  e.preventDefault(); //Evita que aparesca el menu del navegador
-    if (e.target.id.indexOf("sq") === 0) {
-    var clicked = e.target;
-    if(clicked.classList.contains("none")){
-      clicked.className = "flagged square"; // reemplaza todas las clases por una unica clase "flagged" evitando usar: clicked.classList.remove("none"); clicked.classList.add("flagged");
-      updateMinesCounter("--");
-    } else if(clicked.classList.contains("flagged")){
-      clicked.className = "questioned square";
-      updateMinesCounter("++");
-    } else if(clicked.classList.contains("questioned")){
-      clicked.className = "none square";
-    } }
-});
-//Evento global al presionar cada celda (sq)
-document.addEventListener("click", function(e) {
-  if (gameOver) return;                      //Si game over es true, termina el evento
-  if (e.target.id.indexOf("sq") === 0) {
-    var clicked = e.target;
-    var id = convertIdToArray(clicked.id);  //Arreglo de la posicion [x,y]   
-
-    if (!clicked.classList.contains("flagged") && !clicked.classList.contains("questioned") ){
-      if(firstClick){
-       do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
-         mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
-       } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
-      firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
-      startTimer();
-    }
-
-    if(compare(id,mines)){  //Compara si hay una mina en esa posicion
-        showMines();
-        stopTimer();
-        alert("🎉 ¡Juego finalizado! Has perdido.");
-    } else {
-      showCell(id);
-
-      var visited = Object.keys(visitedCells).length;
-      var totalCells = currLevel.rows * currLevel.columns;
-      var difference = visited + currLevel.mines;
-
-      if (difference === totalCells) {
-        gameOver = true;
-        stopTimer();
-        alert("🎉 ¡Juego finalizado! Has ganado.");
-      }
-    }}
-  }
-});
-
-
-
-function showCell(coord) { //ES5 no existe desestructuración (coord)--->([row,col])
+};
+function showCell(coord) {            //ES5 no existe desestructuración (coord)--->([row,col])
   var row = coord[0];
   var col = coord[1];
   var cellId = row + "_" + col;
@@ -244,19 +159,19 @@ function showCell(coord) { //ES5 no existe desestructuración (coord)--->([row,c
   } else {
     cell.textContent = minesCounter;
   }
-}
+};
 //TIMER
 function stopTimer(){
     clearInterval(intervalTimerId);
     intervalTimerId = null;
 
-}
+};
 function resetTimer(){
   clearInterval(intervalTimerId);
   intervalTimerId = null;
   secondsTimer = 0;
   document.getElementById('timer').textContent = "00:00";
-}
+};
 function startTimer(){
   intervalTimerId = setInterval(
         function(){
@@ -274,4 +189,102 @@ function startTimer(){
           document.getElementById('timer').textContent = minStr + ":" + secStr;
         }
     ,1000);                       //1000 milisegundos = 1 segundo
-}
+};
+
+generateMatrix(currLevel);
+// ██████    ██████  ███    ███
+// ██   ██  ██    ██ ████  ████
+// ██    ██ ██    ██ ██ ████ ██
+// ██   ██  ██    ██ ██  ██  ██
+// █████     ██████  ██      ██
+
+//Evento asociado a boton Reset
+reset.addEventListener("click", resetGame );        //Llama a la funcion resetGame
+document.addEventListener("keydown", function(e) {
+  if (e.code === "Space") {
+    e.preventDefault();                   // Previene la accion default de scroll en la barra espaciadora
+    resetGame();
+  }
+});
+level.addEventListener("change", function() {         //Evento asociado a selector de nivel, Genera la Matriz html de acuerdo a la selección
+  var selectedLevel = level.value;
+  if (gameLevels[selectedLevel]) {                //Validador en caso de que se agrege una opcion mas en el form de niveles disponibles y no se encuentre cargada en el objeto gameLevels
+    currLevel = gameLevels[selectedLevel];
+    resetGame();
+  } else {
+    console.warn("Nivel no reconocido:", selectedLevel);
+  }
+});
+document.addEventListener("contextmenu", function(e) {// funcionalidad boton derecho (contexmenu) en celdas con cambio de clase según su estado
+  if (gameOver) return;                      //Si game over es true, termina el evento
+  e.preventDefault(); //Evita que aparesca el menu del navegador
+    if (e.target.id.indexOf("sq") === 0) {
+    var clicked = e.target;
+    if(clicked.classList.contains("none")){
+      clicked.className = "flagged square"; // reemplaza todas las clases por una unica clase "flagged" evitando usar: clicked.classList.remove("none"); clicked.classList.add("flagged");
+      updateMinesCounter("--");
+    } else if(clicked.classList.contains("flagged")){
+      clicked.className = "questioned square";
+      updateMinesCounter("++");
+    } else if(clicked.classList.contains("questioned")){
+      clicked.className = "none square";
+    } }
+});
+document.addEventListener("click", function(e) {    //Evento global al presionar cada celda (sq)
+  if (gameOver) return;                      //Si game over es true, termina el evento
+  if (e.target.id.indexOf("sq") === 0) {
+    var clicked = e.target;
+    console.log(clicked);
+    var id = convertIdToArray(clicked.id);  //Arreglo de la posicion [x,y]   
+
+    if (!clicked.classList.contains("flagged") && !clicked.classList.contains("questioned") ){
+      if(firstClick){
+       do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
+         mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
+       } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
+      firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
+      startTimer();
+    }
+
+    if(compare(id,mines)){  //Compara si hay una mina en esa posicion
+        showMines();
+        stopTimer();
+        showGameResultModal("¡Juego finalizado! Has perdido.");
+    } else {
+      showCell(id);
+
+      var visited = Object.keys(visitedCells).length;
+      var totalCells = currLevel.rows * currLevel.columns;
+      var difference = visited + currLevel.mines;
+
+      if (difference === totalCells) {
+        gameOver = true;
+        stopTimer();
+        showGameResultModal("🎉 ¡Juego finalizado! Has ganado.");
+      }
+    }}
+  }
+});
+
+
+
+//MODAL
+function showGameResultModal(message) {
+  var modal = document.getElementById("gameResultModal");
+  var messageElement = document.getElementById("modalMessage");
+  messageElement.textContent = message;
+  modal.style.display = "block";
+};
+document.getElementById("closeModal").addEventListener("click", function() {
+  document.getElementById("gameResultModal").style.display = "none";
+});
+
+
+
+
+
+// document.addEventListener("click", function)
+
+// function chording(coord) {
+  
+// }

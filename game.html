@@ -22,15 +22,24 @@
         <div class="board">
             <form>
                 <select id="level">
-                    <option value="principiante">Principiante</option>
-                    <option value="intermedio">Intermedio</option>
-                    <option value="avanzado">Avanzado</option>
+                    <option value="beginner">Principiante</option>
+                    <option value="intermediate">Intermedio</option>
+                    <option value="advanced">Avanzado</option>
+                    <option value="custom">
+                        
+                    </option>
                 </select>
             </form>
         </div>
     </div>
     <div id="matrixExt">
         <div id="matrix"></div>
-    </div> 
+    </div>
+    <div id="gameResultModal" class="modal">
+        <div class="modal-content">
+            <p id="modalMessage">Resultado del juego</p>
+            <button id="closeModal">Cerrar</button>
+        </div>
+    </div>
 </body>
 </html>

@@ -24,6 +24,8 @@ var currLevel = gameLevels["principiante"];
 /* Variables contador minas */
 minesCounter.textContent = (currLevel.mines) ;  // No hay minas marcadas
 var flaggedMines = 0;                           // Contador minas marcadas
+var secondsTimer = 0;                            //Contador globar de segundos que luego sera procesados
+var intervalTimerId = null                        //Almacenará el id generado en el intervalo de time()
 var firstClick = true;                          //Bandera de primer click en juego
 var gameOver =false;                            //Bandera de juego finalizado
 var mines = [];
@@ -81,6 +83,7 @@ function resetGame(){
     firstClick = true;
     gameOver = false;
     visitedCells = {};
+    resetTimer();
 }
 //Compara id pasado con el arreglo de minas generadas
 function compare([row, col],mines){
@@ -99,6 +102,7 @@ function showMines() {
     if (clicked) {
       clicked.className = "mine-hit square";
     }
+  gameOver = true;
   }
 }
 /*Actualizador contador minas */ 
@@ -120,6 +124,10 @@ function updateMinesCounter(action){
     minesCounter.textContent = currLevel.mines;
   }
 }
+
+
+
+
 generateMatrix(currLevel);
 // ██████    ██████  ███    ███
 // ██   ██  ██    ██ ████  ████
@@ -174,11 +182,12 @@ document.addEventListener("click", function(e) {
          mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
        } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
       firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
+      startTimer();
     }
 
     if(compare(id,mines)){  //Compara si hay una mina en esa posicion
         showMines();
-        gameOver = true;
+        stopTimer();
         alert("🎉 ¡Juego finalizado! Has perdido.");
     } else {
       showCell(id);
@@ -189,6 +198,7 @@ document.addEventListener("click", function(e) {
 
       if (difference === totalCells) {
         gameOver = true;
+        stopTimer();
         alert("🎉 ¡Juego finalizado! Has ganado.");
       }
     }}
@@ -234,4 +244,34 @@ function showCell(coord) { //ES5 no existe desestructuración (coord)--->([row,c
   } else {
     cell.textContent = minesCounter;
   }
-};
+}
+//TIMER
+function stopTimer(){
+    clearInterval(intervalTimerId);
+    intervalTimerId = null;
+
+}
+function resetTimer(){
+  clearInterval(intervalTimerId);
+  intervalTimerId = null;
+  secondsTimer = 0;
+  document.getElementById('timer').textContent = "00:00";
+}
+function startTimer(){
+  intervalTimerId = setInterval(
+        function(){
+          secondsTimer++;
+          var minutes = Math.floor(secondsTimer/60);
+          var seconds = secondsTimer % 60;
+          var secStr = seconds;
+          var minStr = minutes;
+          if(seconds<10){           //var minStr = (minutes < 10) ? "0" + minutes : minutes;
+            secStr = "0" + seconds;
+          }
+          if(minutes < 10){         //var secStr = (seconds < 10) ? "0" + seconds : seconds;
+            minStr = "0" + minutes;
+          }
+          document.getElementById('timer').textContent = minStr + ":" + secStr;
+        }
+    ,1000);                       //1000 milisegundos = 1 segundo
+}

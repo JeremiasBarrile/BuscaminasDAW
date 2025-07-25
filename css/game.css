@@ -18,8 +18,7 @@
     background-color: #383838;
     gap: 3px;
     padding: 3px;
-  }
-
+}
 .modal {
   display: none;
   position: fixed;
@@ -39,10 +38,6 @@
   border-radius: 10px;
   box-shadow: 0 0 15px black;
 }
-
-
-
-
 
   /* .square.clicked {
   background-color: #d0d0d0;
@@ -71,20 +66,20 @@
 }
 
 .flagged{
+
 }
 .flagged::before {
   content: "🚩";
 }
-  .questioned::before {
+.questioned::before {
   content: "❓";
 }
 
 .mine-hit{
   background-color: #5C0000;
-
 }
 .mine-hit::before{
-  content: "🔥";
+  content: "💣";
 }
 
 .used{

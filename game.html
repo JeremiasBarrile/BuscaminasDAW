@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minesweeper</title>
+  <link rel="stylesheet" href="./css/game.css" />
+  <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+  <script src="./js/game.js" defer></script>
+</head>
+<body>
+  <!-- Header con contador, botón reset y selector de dificultad -->
+  <header class="topBar">
+    <div class="infoBox">
+      <span>Mines:</span>
+      <span id="minesCounter">0</span>
+    </div>
+
+    <div class="infoBox">
+      <button id="reset" aria-label="Reset game">🔁</button>
+    </div>
+
+    <form class="difficultySelector" aria-label="Select difficulty">
+      <label for="level">Difficulty:</label>
+      <select id="level" name="level">
+        <option value="principiante">Easy</option>
+        <option value="intermedio">Medium</option>
+        <option value="avanzado">Hard</option>
+      </select>
+    </form>
+
+    <div class="infoBox">
+      <span>Time:</span>
+      <span id="timer">0</span>
+    </div>
+  </header>
+
+  <!-- Tablero principal -->
+  <main id="boardWrapper">
+    <div id="matrix" class="board"></div>
+  </main>
+
+  <!-- Modal de resultado (ganar/perder) -->
+  <section id="resultModal" class="modal hidden">
+    <div class="modalContent">
+      <h2 id="resultMessage">You Win!</h2>
+      <p id="finalTime">Time: 00:00</p>
+      <button id="playAgainButton">Play Again</button>
+    </div>
+  </section>
+
+  <!-- Leaderboard -->
+  <section id="leaderboardScreen" class="hidden">
+    <h2>Leaderboard</h2>
+
+    <div class="levelSelector">
+      <button class="levelTab" data-level="principiante">Easy</button>
+      <button class="levelTab" data-level="intermedio">Medium</button>
+      <button class="levelTab" data-level="avanzado">Hard</button>
+    </div>
+
+    <table id="leaderboardTable">
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Name</th>
+          <th>Time</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboardBody">
+        <!-- JS will populate -->
+      </tbody>
+    </table>
+
+    <p id="newRecordMessage" class="goldMessage hidden">🎉 New Record!</p>
+
+    <button id="backToGameButton">Back to Game</button>
+  </section>
+
+  <!-- Link a GitHub -->
+ <footer>
+  <a
+    href="https://github.com/JeremiasBarrile/BuscaminasDAW"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    View Code on GitHub
+  </a>
+  <button id="backToStartButton" onclick="window.location.href='index.html'">
+    ⬅ Back to Start
+  </button>
+</footer>
+
+</body>
+</html>
+

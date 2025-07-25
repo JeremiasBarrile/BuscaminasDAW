@@ -1,0 +1,170 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: #333;
+  height: 100vh;
+}
+
+/* Fondos por nivel */
+body.easy {
+  background-color: #e8f5e9;
+}
+
+body.medium {
+  background-color: #fff3e0;
+}
+
+body.hard {
+  background-color: #ffebee;
+}
+
+/* Pantalla de inicio y generales */
+.screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: auto;
+  border-radius: 12px;
+  text-align: center;
+}
+
+input[type="text"] {
+  padding: 0.6rem 1rem;
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.errorMessage {
+  color: #d32f2f;
+  font-size: 0.9rem;
+  min-height: 1.2rem;
+  text-align: center;
+}
+
+/* Footer y enlace */
+.footerLink {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.footerLink a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.footerLink a:hover {
+  text-decoration: underline;
+}
+
+/* Leaderboard y modales */
+.modal,
+#leaderboardScreen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.modal.show,
+#leaderboardScreen.show {
+  display: flex;
+}
+
+.modalContent {
+  text-align: center;
+}
+
+.levelSelector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.levelTab {
+  padding: 0.4rem 0.8rem;
+  background-color: #ddd;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.levelTab:hover {
+  background-color: #ccc;
+}
+
+.goldMessage {
+  color: goldenrod;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+#leaderboardTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+#leaderboardTable th,
+#leaderboardTable td {
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+#leaderboardTable tr:nth-child(1) {
+  background-color: gold;
+}
+
+#leaderboardTable tr:nth-child(2) {
+  background-color: silver;
+}
+
+#leaderboardTable tr:nth-child(3) {
+  background-color: #cd7f32; /* bronze */
+}
+
+#backToStartButton {
+  margin-top: 1.5rem;
+  background-color: #1976d2;
+}
+
+#backToStartButton:hover {
+  background-color: #1565c0;
+}

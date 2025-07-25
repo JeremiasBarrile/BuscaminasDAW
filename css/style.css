@@ -1,4 +1,4 @@
-/* Reset básico */
+
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +11,6 @@ body {
   height: 100vh;
 }
 
-/* Fondos por nivel */
 body.easy {
   background-color: #e8f5e9;
 }
@@ -24,7 +23,6 @@ body.hard {
   background-color: #ffebee;
 }
 
-/* Pantalla de inicio y generales */
 .screen {
   min-height: 100vh;
   display: flex;
@@ -71,7 +69,6 @@ button:hover {
   text-align: center;
 }
 
-/* Footer y enlace */
 .footerLink {
   margin-top: 1rem;
   font-size: 0.9rem;
@@ -86,7 +83,6 @@ button:hover {
   text-decoration: underline;
 }
 
-/* Leaderboard y modales */
 .modal,
 #leaderboardScreen {
   display: none;

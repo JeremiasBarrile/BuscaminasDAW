@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minesweeper</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <script src="./js/index.js" defer></script>
+</head>
+<body>
+  <main id="startScreen" class="screen">
+    <h1>Buscaminas</h1>
+
+    <p>Ingresa tu nombre para Jugar</p>
+    <input
+      type="text"
+      id="userName"
+      name="userName"
+      placeholder="Your name"
+      maxlength="15"
+      required
+    />
+
+    <p id="errorMessage" class="errorMessage" aria-live="polite"></p>
+
+    <button id="playButton">Play</button>
+
+    <footer class="footerLink">
+      <a
+        href="https://github.com/JeremiasBarrile/BuscaminasDAW"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Ver codigo en GitHub
+      </a>
+    </footer>
+  </main>
+</body>
+</html>

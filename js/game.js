@@ -244,34 +244,34 @@ document.addEventListener("contextmenu", function(e) {// funcionalidad boton der
     } }
 });
 document.addEventListener("click", function(e) {    //Evento global al presionar cada celda (sq)
-  if (gameOver) return;                      //Si game over es true, termina el evento
+  if (gameOver) return;                             //Si game over es true, termina el evento
   if (e.target.id.indexOf("sq") === 0) {
     var clicked = e.target;
     if (e.target.className.indexOf("none square") === 0) {
       revealCell(clicked);
-    } else if (e.target.className.indexOf("used")=== 0){//0 si "used" está al principio,>0 si está en el medio o al final y -1 si no está
+    } else if (e.target.className.indexOf("used")!== -1){//0 si "used" está al principio,>0 si está en el medio o al final y -1 si no está
       chording(clicked);
     }
   }
 });
 
 function revealCell(clicked){
-    var id = convertIdToArray(clicked.id);  //Arreglo de la posicion [x,y]   
+    var position = convertIdToArray(clicked.id);  //Arreglo de la posicion [x,y]   
     if (!clicked.classList.contains("flagged") && !clicked.classList.contains("questioned") ){
       if(firstClick){
        do {                                //Con estas tres lineas de codigo nos evitamos estar pasando la variable id del elemento presionado
          mines = generateMines(currLevel);      // a cada una de las funciones y lo solucionamos en 3 lineas
-       } while (compare(id,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
+       } while (compare(position,mines));         //repite la generación de la matriz minas hasta que no se repita la presionada con la generada.
       firstClick = false;                 // Bandera corta la unica ejecucion de generacion de minas en el primer click.
       startTimer();
     }
 
-    if(compare(id,mines)){  //Compara si hay una mina en esa posicion
+    if(compare(position,mines)){  //Compara si hay una mina en esa posicion
         showMines();
         stopTimer();
         showGameResultModal("¡Juego finalizado! Has perdido.");
     } else {
-      showCell(id);
+      showCell(position);
 
       var visited = Object.keys(visitedCells).length;
       var totalCells = currLevel.rows * currLevel.columns;
@@ -285,9 +285,9 @@ function revealCell(clicked){
     }}
 };
 function chording(clicked) { 
-  var id = convertIdToArray(clicked.id);
-  var row = id[0];
-  var col = id[1];
+  var position = convertIdToArray(clicked.id);
+  var row = position[0];
+  var col = position[1];
   var minesAround=parseInt(clicked.textContent, 10);
   var flagsAround=0;
   var neighborArr=[];
@@ -303,10 +303,11 @@ function chording(clicked) {
       }
     }
   }
-  console.log("flags",flagsAround, "nei",neighborArr.length)
   if(flagsAround === minesAround){
     for(var j=0;j<neighborArr.length; j++){
-       showCell(neighborArr[j]);
+       //showCell(neighborArr[j]);          //Revelando las celdes nos salteamos la validacion de juego finalizado.
+       var cellNeigbors = document.getElementById("sq" + neighborArr[j][0] + "_" + neighborArr[j][1]);
+       revealCell(cellNeigbors);
     }
   }
 }

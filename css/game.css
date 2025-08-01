@@ -1,9 +1,19 @@
+/* ==== RESET Y BASE ==== */
 body {
   font-family: Arial, sans-serif;
   color: #333333;
   background-color: #f3f3f3;
   margin: 0;
   overflow-x: hidden;
+}
+.gameTitle {
+  font-family: 'Bungee', Arial, sans-serif;
+  font-size: 4rem;
+  letter-spacing: 2px;
+  text-align: center;
+  color: #1a2236;
+  margin-bottom: 1.2rem;
+  text-shadow: 1px 1px 0 #bfc9db, 2px 2px 3px #dbeafe80;
 }
 
 .gameScreen {
@@ -14,6 +24,7 @@ body {
   justify-content: center;
 }
 
+/* ==== CARD DEL JUEGO ==== */
 .gameCard {
   background: #fff;
   border-radius: 2rem;
@@ -28,6 +39,7 @@ body {
   gap: 2.2rem;
 }
 
+/* ==== TOPBAR ==== */
 .topBar {
   width: 100%;
   display: flex;
@@ -37,7 +49,6 @@ body {
   gap: 1rem;
   margin-bottom: 0.5rem;
 }
-
 .infoBox {
   display: flex;
   align-items: center;
@@ -45,14 +56,12 @@ body {
   font-size: 1.08rem;
   font-weight: 700;
 }
-
 .gameStatLabel {
   font-size: 0.97rem;
   font-weight: 500;
   color: #42596b;
   margin-left: 0.2rem;
 }
-
 .difficultySelector select {
   padding: 0.55rem 1rem;
   border-radius: 1.1rem;
@@ -63,11 +72,16 @@ body {
   font-weight: 500;
 }
 
+/* ==== BOARD WRAPPER Y TABLERO ==== */
 #boardWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-height: 0;
+  padding: 0;
+  overflow-x: auto;         /* Permite scroll si hace falta */
+  background: transparent;  /* Sin fondo gris extra */
 }
 
 #matrix {
@@ -77,11 +91,14 @@ body {
   padding: 6px;
   border-radius: 14px;
   box-shadow: 0 2px 8px #28282817;
+  width: fit-content;         /* Solo ocupa lo necesario */
+  max-width: 98vw;
+  min-width: unset;
+  margin: 0 auto;
 }
 
+/* ==== CELDAS ==== */
 .square {
-  width: 23px;
-  height: 23px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,7 +109,6 @@ body {
   transition: filter 0.2s, background-color 0.2s;
 }
 .square:hover { filter: brightness(1.13); }
-
 .none { background-color: #a0a0a0; }
 .none::before { content: ""; }
 .used { background-color: #d0d0d0; border: inset 2px #888888; }
@@ -101,7 +117,7 @@ body {
 .mine-hit { background-color: #5c0000; }
 .mine-hit::before { content: "💣"; }
 
-/* Modal */
+/* ==== MODAL ==== */
 .modal {
   display: none;
   position: fixed;
@@ -115,190 +131,7 @@ body {
   justify-content: center;
 }
 .modal.show { display: flex; }
-.modal-content {
-  background: #fff;
-  padding: 2rem 1.2rem;
-  border-radius: 1.2rem;
-  box-shadow: 0 8px 28px #26334323;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.3rem;
-}
 
-/* Botones */
-.gameBtn, .orangeBtn {
-  font-size: 1.11rem;
-  padding: 0.8rem 1.5rem;
-  border-radius: 1.2rem;
-  background: #ff9d6a;
-  color: #fff;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 0.15rem 0 0.2rem 0;
-  box-shadow: 0 2px 12px #ff9d6a18;
-  transition: background 0.15s, box-shadow 0.15s;
-  letter-spacing: 0.4px;
-}
-.gameBtn:hover, .orangeBtn:hover {
-  background: #ff8243;
-  box-shadow: 0 4px 18px #ff9d6a2e;
-}
-
-#boardWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: 0;
-  padding: 0;
-  overflow-x: auto;        /* Permite scroll lateral si es necesario */
-  background: transparent; /* Así el fondo gris solo está detrás de las celdas */
-}
-
-#matrix {
-  display: grid;
-  background-color: #383838;
-  gap: 3px;
-  padding: 6px;
-  border-radius: 14px;
-  box-shadow: 0 2px 8px #28282817;
-  width: fit-content;        /* ¡Este es el truco! */
-  max-width: 98vw;
-  min-width: unset;
-  margin: 0 auto;
-}
-
-
-@media (max-width: 650px) {
-  .gameCard, .mainFooter {
-    max-width: 100vw;
-    border-radius: 0;
-    margin: 0;
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
-  }
-
-  .topBar {
-    flex-direction: column;
-    gap: 0.6rem;
-    align-items: stretch;
-    padding: 0.7rem 0;
-  }
-  #matrix {
-    gap: 2px;
-    padding: 2px;
-    border-radius: 7px;
-    width: 100vw;
-    max-width: 99vw;
-  }
-  .square {
-    width: 14vw;
-    height: 14vw;
-    max-width: 28px;
-    max-height: 28px;
-    font-size: 1.1rem;
-  }
-  .infoBox, .difficultySelector {
-    width: 100%;
-    justify-content: center;
-    font-size: 1.05rem;
-  }
-  .gameBtn, .orangeBtn {
-    width: 100%;
-    font-size: 1.15rem;
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 130;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(30,40,60,0.22);
-  align-items: center;
-  justify-content: center;
-}
-
-.modal.show { display: flex; }
-
-.modal-content {
-  background: #fff;
-  padding: 2rem 1.2rem;
-  border-radius: 1.2rem;
-  box-shadow: 0 8px 28px #26334323;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.3rem;
-  /* Animación pop */
-  transform: scale(0.9);
-  opacity: 0;
-  animation: modalPop 0.4s cubic-bezier(.44,1.26,.58,1.13) forwards;
-}
-
-@keyframes modalPop {
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Ganar */
-.modal-content.win {
-  background: #dbffe6;
-  box-shadow: 0 0 0 100vw #2ecc4077;
-  border: 3px solid #19b76a;
-  animation: modalWinBg 0.6s;
-}
-@keyframes modalWinBg {
-  0% { box-shadow: 0 0 0 0 #2ecc4044;}
-  60% { box-shadow: 0 0 0 100vw #2ecc4025;}
-  100% { box-shadow: 0 0 0 100vw #2ecc4077;}
-}
-
-/* Perder */
-.modal-content.lose {
-  background: #fff2f0;
-  box-shadow: 0 0 0 100vw #ff5b5b55;
-  border: 3px solid #f44336;
-  animation: modalLoseBg 0.6s;
-}
-@keyframes modalLoseBg {
-  0% { box-shadow: 0 0 0 0 #ff5b5b22;}
-  60% { box-shadow: 0 0 0 60vw #ff5b5b22;}
-  100% { box-shadow: 0 0 0 100vw #ff5b5b55;}
-}
-
-/* Botones del modal */
-.modalBtnGroup {
-  display: flex;
-  gap: 1.1rem;
-}
-
-.secondaryBtn {
-  background: #e3e6e8;
-  color: #263343;
-  font-weight: bold;
-  border-radius: 1.2rem;
-  font-size: 1.07rem;
-  box-shadow: 0 2px 8px #3c50680c;
-  border: none;
-  padding: 1rem 1.5rem;
-  width: auto;
-  cursor: pointer;
-  transition: background 0.18s;
-}
-.secondaryBtn:hover {
-  background: #cfd7de;
-}
 .modal-content {
   background: #fff;
   padding: 1.7rem 1rem;
@@ -311,9 +144,9 @@ body {
   min-width: 280px;
   max-width: 350px;
   margin: 0 auto;
-  animation: modalPop 0.4s cubic-bezier(.44,1.26,.58,1.13) forwards;
   transform: scale(0.98);
   opacity: 0.97;
+  animation: modalPop 0.4s cubic-bezier(.44,1.26,.58,1.13) forwards;
 }
 
 @keyframes modalPop {
@@ -326,7 +159,6 @@ body {
   border: 2.3px solid #21b170;
   box-shadow: 0 0 0 100vw #2ecc4047;
 }
-
 .modal-content.lose {
   background: #fff4f4;
   border: 2.3px solid #e45555;
@@ -373,3 +205,42 @@ body {
   transition: background 0.18s;
 }
 .secondaryBtn:hover { background: #cfd7de; }
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 650px) {
+  .gameCard, .mainFooter {
+    max-width: 100vw;
+    border-radius: 0;
+    margin: 0;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+  }
+  .topBar {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: stretch;
+    padding: 0.7rem 0;
+  }
+  #matrix {
+    gap: 2px;
+    padding: 2px;
+    border-radius: 7px;
+    width: fit-content;
+    max-width: 99vw;
+  }
+  .square {
+    font-size: 0.95rem;
+    border-radius: 3px;
+  }
+  .infoBox, .difficultySelector {
+    width: 100%;
+    justify-content: center;
+    font-size: 1.05rem;
+  }
+  .gameBtn, .orangeBtn {
+    width: 100%;
+    font-size: 1.15rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

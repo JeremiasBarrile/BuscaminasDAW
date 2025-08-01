@@ -1,20 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/index.js" defer></script>
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buscaminas</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="./js/game.js" defer></script>
 </head>
 <body>
+  <main id="startScreen" class="screen">
+    <h1>Buscaminas</h1>
 
-    <section id="pantallaInicio" class="pantalla">
-        <h1>Buscaminas</h1>
-        <p>ingresa tu Nombre para Comenzar</p>
-        <input type="text" id="nomUser" placeholder="Tu Nombre">
-        <button id="btnJuego" onclick="window.location.href=&quot;./game.html&quot;">JUGAR</button>
+    <p>Ingresá tu nombre para jugar</p>
+    <input
+      type="text"
+      id="userName"
+      name="userName"
+      placeholder="Tu nombre"
+      maxlength="15"
+      required
+    />
 
-    </section>
+    <p id="errorMessage" class="errorMessage" aria-live="polite"></p>
+    <button id="startButton">Jugar</button>
+  </main>
+     <footer class="footerLink">
+      <a
+        href="https://github.com/JeremiasBarrile/BuscaminasDAW"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Ver código en GitHub
+      </a>
+    </footer>
 </body>
 </html>

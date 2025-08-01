@@ -1,99 +1,185 @@
-#header{
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f3f3f3;
+  color: #333;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #222;
+  color: white;
+}
+
+.infoBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.difficultySelector select {
+  padding: 0.4rem;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+#boardWrapper {
   display: flex;
   justify-content: center;
-  align-content: flex-end;
-  padding-top: 30px;
-}
-.board{
-  padding: 4px;
-}
-#matrixExt{
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+  padding: 2rem 0;
 }
 
 #matrix {
-    display: grid;
-    background-color: #383838;
-    gap: 3px;
-    padding: 3px;
-}
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.modal-content {
-  background-color: white;
-  margin: 15% auto;
-  padding: 20px;
-  width: 250px;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 0 15px black;
+  display: grid;
+  background-color: #383838;
+  gap: 3px;
+  padding: 3px;
 }
 
-  /* .square.clicked {
-  background-color: #d0d0d0;
-  border: inset 2px #888;
-} */
 
-/* Clases que manejan estados de squares*/
-/*
-.none             "celda estandar"
-.revealed	        "celda revelado"
-.flagged	        "marcado con bandera"
-.questioned	      "con duda"
-.mine-hit	        "mina activada"
-.used             "celda activada sin mina"
-*/
-.none{
+.square {
   width: 23px;
   height: 23px;
-  background-Color: #a0a0a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  user-select: none;
+  cursor: pointer;
 }
-.none::before{
+
+.none {
+  background-color: #a0a0a0;
+}
+
+.none::before {
   content: "";
 }
-.revealed{
-  
+
+.used {
+  background-color: #d0d0d0;
+  border: inset 2px #888;
 }
 
-.flagged{
-
-}
 .flagged::before {
   content: "🚩";
 }
+
 .questioned::before {
   content: "❓";
 }
 
-.mine-hit{
-  background-color: #5C0000;
-}
-.mine-hit::before{
-  content: "💣";
+.mine-hit {
+  background-color: #5c0000;
 }
 
-.used{
-  background-color: #d0d0d0;
-  border: inset 2px #888
+.mine-hit::before {
+ content: "💣";
 }
-.used::before{
-  content: "";
-}
-.square {
-  display: flex;
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
   justify-content: center;
-  font-size: 1.2em;
-  user-select: none;
+  z-index: 999;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+#leaderboardScreen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+#leaderboardScreen.show {
+  display: flex;
+}
+
+.levelSelector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.levelTab {
+  padding: 0.5rem 1rem;
+  background-color: #ccc;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+}
+
+#leaderboardTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+#leaderboardTable th,
+#leaderboardTable td {
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+#leaderboardTable tr:nth-child(1) {
+  background-color: gold;
+}
+
+#leaderboardTable tr:nth-child(2) {
+  background-color: silver;
+}
+
+#leaderboardTable tr:nth-child(3) {
+  background-color: #cd7f32;
+}
+
+.goldMessage {
+  color: goldenrod;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+#backToGameButton,
+#playAgainButton {
+  margin-top: 1.5rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#backToGameButton:hover,
+#playAgainButton:hover {
+  background-color: #1565c0;
 }

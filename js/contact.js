@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const nameError = document.getElementById('nameError');
   const emailError = document.getElementById('emailError');
   const messageError = document.getElementById('messageError');
+  const backBtn = document.getElementById('backToHome');
 
+  // Validación y envío
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     let valid = true;
@@ -44,4 +46,11 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = mailto;
     }
   });
+
+  // Volver al inicio
+  if (backBtn) {
+    backBtn.addEventListener('click', function () {
+      window.location.href = 'index.html';
+    });
+  }
 });

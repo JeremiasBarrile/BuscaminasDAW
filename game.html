@@ -1,65 +1,68 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscamina</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buscaminas</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/game.css" />
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
-    <script src="./js/game.js" defer></script>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+  <script src="js/game.js" defer></script>
 </head>
 <body>
-    <div id="header">
-        <div class="board">
-            <div id="minesCounter">|  |</div>
+  <main class="gameScreen">
+    <section class="gameCard">
+      <div class="topBar">
+        <div class="infoBox">
+          <span id="minesCounter">10</span>
+          <span class="gameStatLabel">💣 Minas</span>
         </div>
-        <div class="board">
-            <button id="reset">Reset</button>
+        <button id="reset" class="gameBtn orangeBtn">Reset</button>
+        <div class="infoBox">
+          <span id="timer">00:00</span>
+          <span class="gameStatLabel">⏱️ Tiempo</span>
         </div>
-        <div class="board">
-            <div id="timer">00:00</div>
+        <div class="difficultySelector">
+          <select id="level">
+            <option value="beginner">Principiante</option>
+            <option value="intermediate">Intermedio</option>
+            <option value="advanced">Avanzado</option>
+          </select>
         </div>
-        <div class="board">
-            <form>
-                <select id="level">
-                    <option value="beginner">Principiante</option>
-                    <option value="intermediate">Intermedio</option>
-                    <option value="advanced">Avanzado</option>
-                    <option value="custom">
-                        
-                    </option>
-                </select>
-            </form>
-        </div>
-    </div>
-    <div id="matrixExt">
+      </div>
+      <div id="boardWrapper">
         <div id="matrix"></div>
-    </div>
-    <div id="gameResultModal" class="modal">
-        <div class="modal-content">
-            <p id="modalMessage">Resultado del juego</p>
-            <button id="closeModal">Cerrar</button>
+      </div>
+    </section>
+    
+    <!-- Modal resultado -->
+   <div id="gameResultModal" class="modal">
+      <div id="modalContent" class="modal-content">
+          <p id="modalMessage">Resultado del juego</p>
+        <div class="modalBtnGroup">
+          <button id="playAgainBtn" class="gameBtn">Volver a jugar</button>
+          <button id="goHomeBtn" class="gameBtn secondaryBtn">Volver al inicio</button>
         </div>
+      </div>
     </div>
-
-<footer class="mainFooter">
-  <div class="footerCol footerLeft">
-    Proyecto realizado por Federico Benedetti y Jeremias Barrile
-  </div>
-  <div class="footerCol footerCenter">
-    <a href="contact.html" class="footerBtn">
-      <img src="/Icons/contactos.png" alt="" class="footerIcon" width="20" height="20" />
-      Contacto
-    </a>
-  </div>
-  <div class="footerCol footerRight">
-    <a href="https://github.com/JeremiasBarrile/BuscaminasDAW" target="_blank" rel="noopener noreferrer" class="footerBtn">
-      <img src="/Icons/github.png" alt="" class="footerIcon" width="20" height="20" />
-      Ver código en GitHub
-    </a>
-  </div>
-</footer>
-
+  </main>
+  <!-- Footer igual que siempre -->
+  <footer class="mainFooter">
+    <div class="footerCol footerLeft">
+      Proyecto realizado por Federico Benedetti y Jeremias Barrile
+    </div>
+    <div class="footerCol footerCenter">
+      <a href="contact.html" class="footerBtn">
+        <img src="/Icons/contactos.png" alt="" class="footerIcon" width="20" height="20" />
+        Contacto
+      </a>
+    </div>
+    <div class="footerCol footerRight">
+      <a href="https://github.com/JeremiasBarrile/BuscaminasDAW" target="_blank" rel="noopener noreferrer" class="footerBtn">
+        <img src="/Icons/github.png" alt="" class="footerIcon" width="20" height="20" />
+        Ver código en GitHub
+      </a>
+    </div>
+  </footer>
 </body>
 </html>

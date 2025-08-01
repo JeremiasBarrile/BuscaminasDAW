@@ -206,7 +206,31 @@ function startTimer(){
 // ==========================
 //    CONTADOR DE MINAS
 // ==========================
+//MODAL
+function showGameResultModal(message, win) {
+  var modal = document.getElementById("gameResultModal");
+  var content = document.getElementById("modalContent");
+  var messageElement = document.getElementById("modalMessage");
+  messageElement.textContent = message;
 
+  content.classList.remove("win", "lose"); // Remover clases anteriores
+
+  if (win) {
+    content.classList.add("win");
+  } else {                                   // Animación/fondo según resultado
+    content.classList.add("lose");
+  }
+  modal.classList.add("show");
+}
+
+document.getElementById("playAgainBtn").onclick = function() {
+  document.getElementById("gameResultModal").classList.remove("show");// Botón Volver a jugar
+  resetGame();
+};
+
+document.getElementById("goHomeBtn").onclick = function() {// Botón Volver al inicio
+  window.location.href = "index.html";
+};
 // ==========================
 //    EVENTOS
 // ==========================
@@ -269,7 +293,7 @@ function revealCell(clicked){
     if(compare(position,mines)){  //Compara si hay una mina en esa posicion
         showMines();
         stopTimer();
-        showGameResultModal("¡Juego finalizado! Has perdido.");
+        showGameResultModal("❌ ¡Perdiste! Intenta de nuevo.", false);
     } else {
       showCell(position);
 
@@ -280,7 +304,7 @@ function revealCell(clicked){
       if (difference === totalCells) {
         gameOver = true;
         stopTimer();
-        showGameResultModal("🎉 ¡Juego finalizado! Has ganado.");
+        showGameResultModal("🏆 ¡Ganaste! ¡Felicitaciones!", true); 
       }
     }}
 };
@@ -311,28 +335,6 @@ function chording(clicked) {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-//MODAL
-function showGameResultModal(message) {
-  var modal = document.getElementById("gameResultModal");
-  var messageElement = document.getElementById("modalMessage");
-  messageElement.textContent = message;
-  modal.style.display = "block";
-};
-document.getElementById("closeModal").addEventListener("click", function() {
-  document.getElementById("gameResultModal").style.display = "none";
-});
-
-
-
 
 
 // document.addEventListener("click", function)

@@ -9,12 +9,17 @@ body {
 
 .gameTitle {
   font-family: 'Bungee', Arial, sans-serif;
-  font-size: 4rem;
-  letter-spacing: 2px;
-  text-align: center;
-  color: #1a2236;
+  font-size: 2.5rem;
+  font-weight: 600;
   margin-bottom: 1.2rem;
-  text-shadow: 1px 1px 0 #bfc9db, 2px 2px 3px #dbeafe80;
+  letter-spacing: 2px;
+  color: #222e3a;
+  text-align: center;
+}
+@media (max-width: 500px) {
+  .mainTitle {
+    font-size: 2.1rem;
+  }
 }
 
 .gameScreen {
@@ -31,8 +36,8 @@ body {
   background: #fff;
   border-radius: 2rem;
   box-shadow: 0 8px 32px #3c506822;
-  padding: 2rem;
-  margin: 2.7rem auto 1rem auto;
+  padding: 1.8rem;
+  margin: 1.5rem auto 0.5rem auto;
   text-align: center;
 }
 
@@ -45,7 +50,6 @@ body {
   gap: 1rem;
   margin-bottom: 0.5rem;
 }
-
 .infoBox {
   display: flex;
   align-items: center;
@@ -53,14 +57,12 @@ body {
   font-size: 1.08rem;
   font-weight: 700;
 }
-
 .gameStatLabel {
   font-size: 0.97rem;
   font-weight: 500;
   color: #42596b;
   margin-left: 0.2rem;
 }
-
 .difficultySelector select {
   padding: 0.55rem 1rem;
   border-radius: 1.1rem;
@@ -80,7 +82,6 @@ body {
   overflow-x: auto;
   background: transparent;
 }
-
 #matrix {
   display: grid;
   background-color: #383838;
@@ -198,35 +199,59 @@ body {
 }
 .secondaryBtn:hover { background: #cfd7de; }
 
-/* ==== RESPONSIVE ==== */
+/* ==== RESPONSIVE (MOBILE) ==== */
 @media (max-width: 650px) {
   .gameCard {
-    width: 100%;
+    width: 100vw;
     border-radius: 0;
     margin: 0;
-    padding: 1rem;
+    padding: 1rem 0.3rem 1rem 0.3rem;
+    min-height: 100vh;
+    box-sizing: border-box;
   }
   .topBar {
     flex-direction: column;
-    gap: 0.6rem;
-    align-items: stretch;
-    padding: 0.7rem 0;
+    align-items: center;
+    gap: 0.7rem;
+    width: 100%;
   }
-  #matrix {
-    gap: 2px;
-    padding: 2px;
-  }
-  .square {
-    font-size: 0.95rem;
-    border-radius: 3px;
-  }
-  .infoBox, .difficultySelector {
+  .difficultySelector {
     width: 100%;
     justify-content: center;
-    font-size: 1.05rem;
+    display: flex;
+    margin-top: 0.7rem;
+  }
+  #boardWrapper {
+    width: 100vw;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+  }
+  #matrix {
+    /* ¡TRUCO RESPONSIVE! */
+    width: 96vw;
+    max-width: 96vw;
+    min-width: unset;
+    gap: 1.7vw;
+    padding: 2vw;
+    border-radius: 7px;
+    margin: 0 auto;
+  }
+  .square {
+    width: 9vw;
+    height: 9vw;
+    max-width: 23px;
+    max-height: 23px;
+    min-width: 13px;
+    min-height: 13px;
+    font-size: 0.97rem;
+    border-radius: 3px;
   }
   .gameBtn {
-    font-size: 1.15rem;
     width: 100%;
+    font-size: 1.15rem;
   }
 }
+

@@ -24,20 +24,38 @@
         <p id="errorMessage" class="errorMessage" aria-live="polite"></p>
         <button id="startButton">Jugar</button>
         <button id="leaderboardButton">Ver Ranking</button>
-        <div id="leaderboard" class="hidden">
-        <h2>Ranking</h2>
+
+
+
+        <section id="leaderboard" class="hidden">
+        <h2>Ranking de Jugadores</h2>
+
+        <select id="levelFilter">
+            <option value="all">Todos</option>
+            <option value="beginner">Principiante</option>
+            <option value="intermediate">Intermedio</option>
+            <option value="advanced">Avanzado</option>
+        </select>
+
         <table id="leaderboardTable">
             <thead>
             <tr>
                 <th>Posición</th>
                 <th>Jugador</th>
-                <th>Puntuación</th>
+                <th>Tiempo récord (s)</th>
             </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+            <!-- Las filas se completan con JS -->
+            </tbody>
         </table>
+
         <button id="closeLeaderboardButton">Cerrar Ranking</button>
-        </div>
+        </section>
+
+
+
+
 
     </main>
     <footer class="mainFooter">

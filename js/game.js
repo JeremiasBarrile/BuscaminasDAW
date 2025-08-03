@@ -2,9 +2,9 @@
 //    CONFIGURACIÓN INICIAL
 // ==========================
 var  gameLevels= {
-  beginner:       { rows: 8, columns: 8, mines: 10 },
-  intermediate:   { rows: 12, columns: 12, mines: 25 },
-  advanced:       { rows: 16, columns: 16, mines: 40 }
+  beginner:       { rows: 8, columns: 8, mines: 10, type:"beginner" },
+  intermediate:   { rows: 12, columns: 12, mines: 25, type:"intermediate" },
+  advanced:       { rows: 16, columns: 16, mines: 40, type:"advanced" }
 };
 var directions = [
     [-1, -1], [-1, 0], [-1, 1],
@@ -304,7 +304,8 @@ function revealCell(clicked){
       if (difference === totalCells) {
         gameOver = true;
         stopTimer();
-        showGameResultModal("🏆 ¡Ganaste! ¡Felicitaciones!", true); 
+        showGameResultModal("🏆 ¡Ganaste! ¡Felicitaciones!", true);
+        saveGamePlayed() 
       }
     }}
 };
@@ -338,3 +339,69 @@ function chording(clicked) {
 
 
 // document.addEventListener("click", function)
+
+// ==========================
+//    LOCALSTORAGE
+// ==========================
+
+console.log("Prueba",localStorage.getItem("userName"))
+function saveGamePlayed(){
+  var namePlayer = localStorage.getItem("userName");
+  var date = new Date().toISOString().split("T")[0]; // formato AAAA-MM-DD
+  var time = secondsTimer;
+  var level = currLevel.type;
+
+  var newGamePlayed = {
+    name: namePlayer,
+    date: date,
+    gameLevel: level,
+    time: time
+  };
+    
+  var games = JSON.parse(localStorage.getItem("ranking")) || [];// Obtener historial existente o crear uno nuevo
+  games.push(newGamePlayed);  // Agregar la nueva partida
+  localStorage.setItem("ranking", JSON.stringify(games));  // Guardar en localStorage
+}
+
+function mostrarRanking() { //cambiar luego
+  const juegos = JSON.parse(localStorage.getItem("ranking")) || [];
+  const filtro = document.getElementById("levelFilter").value;
+  const tbody = document.querySelector("#leaderboardTable tbody");
+
+  // Limpiar tabla
+  tbody.innerHTML = "";
+
+  // Filtrar por nivel si se seleccionó uno
+  const juegosFiltrados = (filtro === "all")
+    ? juegos
+    : juegos.filter(j => j.gameLevel === filtro);
+
+  // Ordenar por tiempo ascendente (el más rápido primero)
+  juegosFiltrados.sort((a, b) => a.time - b.time);
+
+  // Insertar filas
+  juegosFiltrados.forEach((juego, index) => {
+    const fila = document.createElement("tr");
+    fila.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${juego.name}</td>
+      <td>${juego.time}s</td>
+      <td>${juego.date}</td>
+      <td>${juego.gameLevel}</td>
+    `;
+    tbody.appendChild(fila);
+  });
+}
+// Mostrar ranking al abrir el leaderboard
+document.getElementById("leaderboardButton").addEventListener("click", () => {
+  document.getElementById("leaderboard").classList.remove("hidden");
+  mostrarRanking();
+});
+
+// Cerrar leaderboard
+document.getElementById("closeLeaderboardButton").addEventListener("click", () => {
+  document.getElementById("leaderboard").classList.add("hidden");
+});
+
+// Actualizar ranking al cambiar el filtro
+document.getElementById("levelFilter").addEventListener("change", mostrarRanking);

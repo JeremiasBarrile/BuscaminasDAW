@@ -38,11 +38,11 @@ textarea:focus {
   color: #d32f2f;
   font-size: 0.98rem;
   min-height: 1.2rem;
-  text-align: left;
   margin-bottom: 0.3rem;
   margin-top: -0.6rem;
   display: block;
 }
+
 input[type="text"], input[type="email"], textarea {
   font-size: 1.15rem;
   border: 2.5px solid #e3e6e8;
@@ -64,10 +64,9 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
 .screen {
   background: #ffffff;
   border-radius: 2rem;
-  box-shadow: 0 8px 32px #3c506822;
   padding: 2.7rem 2.1rem;
-  min-width: 320px;
-  max-width: 400px;
+  width: 450px;
+  max-width: 500px;
   margin: 3.5rem auto 2rem auto;
   display: flex;
   flex-direction: column;
@@ -75,7 +74,7 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
   gap: 2rem;
 }
 
-.screen h1 {
+.screen h1 {                  /*Titulo Buscaminas*/
   font-size: 2.3rem;
   font-weight: 800;
   color: #263343;
@@ -83,7 +82,7 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
   letter-spacing: 1px;
 }
 
-.screen p {
+ .screen p:not(.errorMessage) {  /*Evitamos ponerle estilos a errorMessage*/
   color: #42596b;
   font-size: 1.04rem;
   margin-bottom: 0.2rem;
@@ -92,19 +91,11 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
 }
 
 input[type="text"] {
+  text-align: center;
+  font-weight: bold;
   font-size: 1.15rem;
-  border: 2.5px solid #e3e6e8;
-  border-radius: 1.2rem;
-  padding: 1rem 1.4rem;
-  width: 100%;
-  background: #f7f9fa;
-  margin-bottom: 1.2rem;
-  transition: border-color 0.3s;
+  max-width: 80%;
 }
-input[type="text"]:focus {
-  border-color: #8db5db;
-}
-
 button {
   font-size: 1.17rem;
   padding: 1.05rem 0;
@@ -113,11 +104,9 @@ button {
   color: #ffffff;
   border: none;
   font-weight: bold;
-  width: 100%;
+  width: 70%;
   cursor: pointer;
   margin-bottom: 0.13rem;
-  box-shadow: 0 2px 12px #ff9d6a18;
-  transition: background 0.15s, box-shadow 0.15s;
   letter-spacing: 0.5px;
 }
 button:hover {
@@ -134,13 +123,7 @@ button:hover {
   background: #2e9244;
 }
 
-.errorMessage {
-  color: #d32f2f;
-  font-size: 1rem;
-  min-height: 1.2rem;
-  text-align: center;
-  margin-bottom: 0.2rem;
-}
+
 
 /* ==== LEADERBOARD dentro de la tarjeta ==== */
 #leaderboard {
@@ -289,5 +272,10 @@ button:hover {
     width: 100%;
     justify-content: center;
     margin: 0.25em 0;
+  }
+}
+@media (max-width: 480px) {
+  .screen {
+    width: 90%;
   }
 }

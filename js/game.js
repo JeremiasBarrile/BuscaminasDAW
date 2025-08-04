@@ -2,9 +2,9 @@
 //    CONFIGURACIÓN INICIAL
 // ==========================
 var  gameLevels= {
-  beginner:       { rows: 8, columns: 8, mines: 10, type:"beginner" },
-  intermediate:   { rows: 12, columns: 12, mines: 25, type:"intermediate" },
-  advanced:       { rows: 16, columns: 16, mines: 40, type:"advanced" }
+  beginner:       { rows: 8, columns: 8, mines: 10 },
+  intermediate:   { rows: 12, columns: 12, mines: 25 },
+  advanced:       { rows: 16, columns: 16, mines: 40 }
 };
 var directions = [
     [-1, -1], [-1, 0], [-1, 1],
@@ -220,21 +220,17 @@ function showGameResultModal(message, win) {
   } else {                                   // Animación/fondo según resultado
     content.classList.add("lose");
   }
+  modal.classList.add("show");
 }
-document.addEventListener("DOMContentLoaded", function() {
-  var goHomeBtn = document.getElementById("goHomeBtn");
-  if (goHomeBtn) {
-    goHomeBtn.addEventListener("click", function() {
-      window.location.href = "index.html";
-    });
-  }
-});
-// 
+
 document.getElementById("playAgainBtn").onclick = function() {
   document.getElementById("gameResultModal").classList.remove("show");// Botón Volver a jugar
   resetGame();
 };
 
+document.getElementById("goHomeBtn").onclick = function() {// Botón Volver al inicio
+  window.location.href = "index.html";
+};
 // ==========================
 //    EVENTOS
 // ==========================
@@ -308,8 +304,7 @@ function revealCell(clicked){
       if (difference === totalCells) {
         gameOver = true;
         stopTimer();
-        saveGamePlayed();
-        showGameResultModal("🏆 ¡Ganaste! ¡Felicitaciones!", true);
+        showGameResultModal("🏆 ¡Ganaste! ¡Felicitaciones!", true); 
       }
     }}
 };
@@ -342,30 +337,4 @@ function chording(clicked) {
 }
 
 
-// ==========================
-//    LOCALSTORAGE
-// ==========================
-function saveGamePlayed(){
-  var now = new Date();
-  var yyyy = now.getFullYear();
-  var mm = ('0' + (now.getMonth() + 1)).slice(-2); // meses van de 0 a 11
-  var dd = ('0' + now.getDate()).slice(-2);
-  var hh = ('0' + now.getHours()).slice(-2);
-  var min = ('0' + now.getMinutes()).slice(-2);
-  var dateTime = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min;
-
-  var namePlayer = localStorage.getItem("userName"); //Almacenar fecha y hora
-  var time = secondsTimer;
-  var level = currLevel.type;
-
-  var newGamePlayed = {
-    name: namePlayer,
-    date: dateTime,
-    gameLevel: level,
-    time: time
-  };
-    
-  var games = JSON.parse(localStorage.getItem("ranking")) || [];// Obtener historial existente o crear uno nuevo
-  games.push(newGamePlayed);  // Agregar la nueva partida
-  localStorage.setItem("ranking", JSON.stringify(games));  // Guardar en localStorage
-}
+// document.addEventListener("click", function)

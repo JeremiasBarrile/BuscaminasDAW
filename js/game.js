@@ -220,19 +220,20 @@ function showGameResultModal(message, win) {
   } else {                                   // Animación/fondo según resultado
     content.classList.add("lose");
   }
-  modal.classList.add("show");
 }
-
+document.addEventListener("DOMContentLoaded", function() {
+  var goHomeBtn = document.getElementById("goHomeBtn");
+  if (goHomeBtn) {
+    goHomeBtn.addEventListener("click", function() {
+      window.location.href = "index.html";
+    });
+  }
+});
+// 
 document.getElementById("playAgainBtn").onclick = function() {
   document.getElementById("gameResultModal").classList.remove("show");// Botón Volver a jugar
   resetGame();
 };
-
-document.getElementById("goHomeBtn").onclick = function() {// Botón Volver al inicio
-  window.location.href = "index.html";
-};
-
-
 
 // ==========================
 //    EVENTOS

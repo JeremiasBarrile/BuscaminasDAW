@@ -7,23 +7,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Bungee:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/game.css" />
-  <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="Icons/favicon.ico" type="image/x-icon" />
   <script src="js/game.js" defer></script>
 </head>
 <body>
   <main class="gameScreen">
     <h1 class="gameTitle">Buscaminas</h1>
     <section class="gameCard">
+      <div style="display: flex; justify-content: flex-start; width: 100%;">
+        <button id="goHomeBtn" class="secondaryBtn" style="margin-bottom:1.2rem; margin-top:0;">Volver al inicio</button>
+      </div>
       <div class="topBar">
         <div class="infoBox">
           <span id="minesCounter">10</span>
           <span class="gameStatLabel">💣 Minas</span>
         </div>
-        <button id="reset" class="gameBtn orangeBtn">Reset</button>
         <div class="infoBox">
           <span id="timer">00:00</span>
           <span class="gameStatLabel">⏱️ Tiempo</span>
         </div>
+        <button id="reset" class="gameBtn orangeBtn">Reset</button>
         <div class="difficultySelector">
           <select id="level">
             <option value="beginner">Principiante</option>
@@ -36,8 +39,6 @@
         <div id="matrix"></div>
       </div>
     </section>
-
-    <!-- Modal resultado -->
    <div id="gameResultModal" class="modal">
       <div id="modalContent" class="modal-content">
           <p id="modalMessage">Resultado del juego</p>
@@ -48,7 +49,6 @@
       </div>
     </div>
   </main>
-  <!-- Footer igual que siempre -->
   <footer class="mainFooter">
     <div class="footerCol footerLeft">
       Proyecto realizado por Barrile Jeremias y Benedetti Federico

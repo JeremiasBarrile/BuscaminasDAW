@@ -5,15 +5,6 @@ var leaderboardButton = document.getElementById('leaderboardButton');
 var closeLeaderboardButton = document.getElementById('closeLeaderboardButton');
 var leaderboard = document.getElementById('leaderboard');
 
-// Mostrar leaderboard
-leaderboardButton.addEventListener('click', function () {
-  leaderboard.classList.remove('hidden');
-});
-
-// Ocultar leaderboard
-closeLeaderboardButton.addEventListener('click', function () {
-  leaderboard.classList.add('hidden');
-});
 
 // Validar nombre y redirigir a game.html
 startButton.addEventListener('click', function () {
@@ -30,51 +21,94 @@ startButton.addEventListener('click', function () {
 });
 
 function saveUserName(){
+  localStorage.removeItem("userName"); // Elimina userName cada vez que se pulsa el boton jugar, para evitar almacenar nombres innecesarios
   var name = document.getElementById("userName").value.trim();
   console.log("nombre:",name);
 }
 
-
-//TEST RANKING
-function mostrarRanking() { //cambiar luego
-  const juegos = JSON.parse(localStorage.getItem("ranking")) || [];
-  const filtro = document.getElementById("levelFilter").value;
-  const tbody = document.querySelector("#leaderboardTable tbody");
-
-  // Limpiar tabla
+var nivelSeleccionado = "beginner"; // Nivel por defecto
+function showRanking() {
+  var juegos = JSON.parse(localStorage.getItem("ranking")) || [];
+  var filtro = nivelSeleccionado;
+  var tbody = document.querySelector("#leaderboardTable tbody");
   tbody.innerHTML = "";
 
-  // Filtrar por nivel si se seleccionó uno
-  const juegosFiltrados = (filtro === "all")
-    ? juegos
-    : juegos.filter(j => j.gameLevel === filtro);
+  var juegosFiltrados = [];
+  for (var i = 0; i < juegos.length; i++) {
+    if (juegos[i].gameLevel === filtro) {
+      juegosFiltrados.push(juegos[i]);
+    }
+  }
 
-  // Ordenar por tiempo ascendente (el más rápido primero)
-  juegosFiltrados.sort((a, b) => a.time - b.time);
+  juegosFiltrados.sort(function(a, b) {
+    return a.time - b.time;
+  });
 
-  // Insertar filas
-  juegosFiltrados.forEach((juego, index) => {
-    const fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${juego.name}</td>
-      <td>${juego.time}s</td>
-      <td>${juego.date}</td>
-      <td>${juego.gameLevel}</td>
-    `;
+  for (var j = 0; j < juegosFiltrados.length; j++) {
+    var juego = juegosFiltrados[j];
+
+    var fila = document.createElement("tr");
+
+    var celdaPos = document.createElement("td");
+    celdaPos.textContent = j + 1;
+
+    var celdaNombre = document.createElement("td");
+    celdaNombre.textContent = juego.name;
+
+    var celdaTiempo = document.createElement("td");
+    celdaTiempo.textContent = juego.time + "s";
+
+    var celdaFecha = document.createElement("td");
+    celdaFecha.textContent = juego.date;
+
+    fila.appendChild(celdaPos);
+    fila.appendChild(celdaNombre);
+    fila.appendChild(celdaTiempo);
+    fila.appendChild(celdaFecha);
+
     tbody.appendChild(fila);
+  }
+}
+
+
+
+
+
+// Mostrar ranking al abrir el leaderboard
+document.getElementById("leaderboardButton").addEventListener("click", function() {
+  var leaderboard = document.getElementById("leaderboard");
+  var btn = this;
+
+  if (leaderboard.classList.contains("hidden")) {
+    leaderboard.classList.remove("hidden");
+    btn.textContent = "Ocultar Ranking";
+    console.log("holajeje");
+    showRanking();
+  } else {
+    leaderboard.classList.add("hidden");
+    btn.textContent = "Ver Ranking";
+  }
+});
+
+var levelFilter = document.getElementById("levelFilter");
+levelFilter.addEventListener("change", showRanking);// Actualizar ranking al cambiar el filtro
+
+//TESTEANDO BOTONES SELECTORES FILTRO
+var nivelSeleccionado = "beginner"; // Nivel por defecto
+var botones = document.querySelectorAll("#levelFilter .level-btn");
+
+for (var i = 0; i < botones.length; i++) {
+  botones[i].addEventListener("click", function() {
+    // Quitar clase activa a todos
+    for (var j = 0; j < botones.length; j++) {
+      botones[j].classList.remove("active");
+    }
+
+    // Activar el botón clickeado
+    this.classList.add("active");
+    nivelSeleccionado = this.getAttribute("data-level");
+
+    // Mostrar ranking
+    showRanking();
   });
 }
-// Mostrar ranking al abrir el leaderboard
-document.getElementById("leaderboardButton").addEventListener("click", () => {
-  document.getElementById("leaderboard").classList.remove("hidden");
-  mostrarRanking();
-});
-
-// Cerrar leaderboard
-document.getElementById("closeLeaderboardButton").addEventListener("click", () => {
-  document.getElementById("leaderboard").classList.add("hidden");
-});
-
-// Actualizar ranking al cambiar el filtro
-document.getElementById("levelFilter").addEventListener("change", mostrarRanking);

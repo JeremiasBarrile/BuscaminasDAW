@@ -30,33 +30,23 @@
         <section id="leaderboard" class="hidden">
         <h2>Ranking de Jugadores</h2>
 
-        <select id="levelFilter">
-            <option value="all">Todos</option>
-            <option value="beginner">Principiante</option>
-            <option value="intermediate">Intermedio</option>
-            <option value="advanced">Avanzado</option>
-        </select>
-
+        <div id="levelFilter" class="level-group">
+            <button data-level="beginner" class="level-btn active">Principiante</button>
+            <button data-level="intermediate" class="level-btn">Intermedio</button>
+            <button data-level="advanced" class="level-btn">Avanzado</button>
+        </div>
         <table id="leaderboardTable">
-            <thead>
+        <thead>
             <tr>
-                <th>Posición</th>
-                <th>Jugador</th>
-                <th>Tiempo récord (s)</th>
+            <th>Posición</th>
+            <th>Jugador</th>
+            <th>Tiempos récord</th>
+            <th>Fecha</th>
             </tr>
-            </thead>
-            <tbody>
-            <!-- Las filas se completan con JS -->
-            </tbody>
+        </thead>
+        <tbody>
+        </tbody>
         </table>
-
-        <button id="closeLeaderboardButton">Cerrar Ranking</button>
-        </section>
-
-
-
-
-
     </main>
     <footer class="mainFooter">
     <div class="footerCol footerLeft">

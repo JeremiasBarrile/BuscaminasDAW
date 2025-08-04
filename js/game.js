@@ -228,8 +228,8 @@ document.getElementById("playAgainBtn").onclick = function() {
   resetGame();
 };
 
-document.getElementById("goHomeBtn").onclick = function() {// Botón Volver al inicio
-  window.location.href = "index.html";
+document.getElementById("goHomeBtnModal").onclick = function() { // Botón Volver al inicio
+  window.location.href = "./index.html";
 };
 // ==========================
 //    EVENTOS
@@ -335,6 +335,9 @@ function chording(clicked) {
     }
   }
 }
-
+//VOLVER AL INICIO
+document.getElementById("goHomeBtn").onclick = function() { // Botón Volver al inicio
+  window.location.href = "./index.html";
+};
 
 // document.addEventListener("click", function)

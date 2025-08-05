@@ -228,7 +228,7 @@ document.getElementById("playAgainBtn").onclick = function() {
   resetGame();
 };
 
-document.getElementById("goHomeBtnModal").onclick = function() { // Botón Volver al inicio
+document.getElementById("goHomeBtn").onclick = function() {// Botón Volver al inicio
   window.location.href = "./index.html";
 };
 // ==========================

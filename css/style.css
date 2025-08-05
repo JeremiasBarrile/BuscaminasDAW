@@ -1,12 +1,4 @@
-/* ==== RESET Y GENERALES ==== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
-  min-height: 100vh;
   font-family: Arial, sans-serif;
   color: #333333;
   background: #88a4b8;
@@ -14,97 +6,33 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow-x: hidden;
-  padding-bottom: 110px; /* espacio para footer */
-}
-/* ==== PAGINA DE CONTACTO ==== */
-textarea {
-  width: 100%;
-  font-size: 1.08rem;
-  border: 2.5px solid #e3e6e8;
-  border-radius: 1.2rem;
-  padding: 1rem 1.4rem;
-  background: #f7f9fa;
-  resize: vertical;
-  margin-bottom: 1rem;
-  transition: border-color 0.3s;
 }
 
-textarea:focus {
-  border-color: #8db5db;
+.gameTitle {
+  font-family: 'Bungee', Arial, sans-serif;
+  font-size: clamp(2rem, 11vw, 5rem); /* mínimo 2rem, máximo 5rem, escala con el ancho */
+  letter-spacing: 2px;
+  text-align: center;
+  color: #1a2236;
+  margin: 0.8rem 0 1.2rem 0;
+  text-shadow: 1px 1px 0 #bfc9db, 2px 2px 3px #dbeafe80;
 }
-
-.errorMessage {
-  color: #d32f2f;
-  font-size: 0.98rem;
-  min-height: 1.2rem;
-  margin-bottom: 0.3rem;
-  margin-top: -0.6rem;
-  display: block;
-}
-
-input[type="text"], input[type="email"], textarea {
-  font-size: 1.15rem;
-  border: 2.5px solid #e3e6e8;
-  border-radius: 1.2rem;
-  padding: 1rem 1.4rem;
-  width: 100%;
-  background: #f7f9fa;
-  margin-bottom: 1.2rem;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
-}
-
-input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
-  border-color: #8db5db;
-}
-
-tr{
-  background-color: #87888a;;
-}
-
-
-/* ==== PANTALLA DE INICIO / MAIN ==== */
-.screen {
-  background: #ffffff;
-  border-radius: 2rem;
-  padding: 2.7rem 2.1rem;
-  width: 450px;
-  max-width: 500px;
-  margin: 3.5rem auto 2rem auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.screen h1 {                  /*Titulo Buscaminas*/
-  font-size: 2.3rem;
-  font-weight: 800;
-  color: #263343;
-  margin-bottom: 0.5rem;
-  letter-spacing: 1px;
-}
-
- .screen p:not(.errorMessage) {  /*Evitamos ponerle estilos a errorMessage*/
-  color: #42596b;
-  font-size: 1.04rem;
-  margin-bottom: 0.2rem;
-  margin-top: -1rem;
-  font-weight: 500;
-}
-
-input[type="text"] {
+.textBox {
   text-align: center;
   font-weight: bold;
   font-size: 1.15rem;
-  max-width: 80%;
+  border: 2.5px solid #e3e6e8;
+  border-radius: 1.2rem;
+  padding: 1rem 1.4rem;
+  width: 70%;
+  background: #f7f9fa;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
 }
 button {
   font-size: 1.17rem;
   padding: 1.05rem 0;
   border-radius: 1.2rem;
-  background: #ff9d6a;
   color: #ffffff;
   border: none;
   font-weight: bold;
@@ -114,84 +42,9 @@ button {
   letter-spacing: 0.5px;
 }
 button:hover {
-  background: #ff8243;
-  box-shadow: 0 4px 18px #ff9d6a2e;
+  opacity: 0.80;
 }
 
-#leaderboardButton{
-  background: #47bb67;
-  margin-top: 0.13rem;
-  margin-bottom: 0.13rem;
-}
-#leaderboardButton:hover {
-  background: #2e9244;
-}
-
-/* Botones selector filtro  */
-.level-group {
-  display: flex;
-  gap: 0.4rem;
-  justify-content: center;
-}
-
-.level-btn {
-  padding: 0.3rem 0.8rem;
-  border: none;
-  border-radius: 4px;
-  background: #ddd;
-  color: #222;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.level-btn:hover {
-  background: #ccc;
-}
-
-.level-btn.active {
-  background: #292929;
-  color: #fff;
-}
-
-
-/* ==== LEADERBOARD dentro de la tarjeta ==== */
-#leaderboard {
-  background: #f9f9f9;
-  padding: 1rem;
-  border-radius: 1rem;
-  box-shadow: 0 2px 8px #00000010;
-  text-align: center;
-}
-#leaderboard.hidden {
-  display: none;
-}
-
-#leaderboard h2 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #222;
-}
-
-#leaderboardTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-}
-
-#leaderboardTable th {
-  background: #f8ee94;
-  color: #000;
-  padding: 0.5rem;
-}
-
-#leaderboardTable td {
-  padding: 0.4rem;
-  background: #fff;
-}
-
-#leaderboardTable tr:nth-child(even) td { /*Aplica color a las filas pares*/
-  background: #f1f1f1;
-}
 
 /* ==== FOOTER ==== */
 .mainFooter {
@@ -264,6 +117,8 @@ button:hover {
   margin-right: 0.4em;
 }
 
+
+/* RESPONSIVE */
 @media (min-width: 1000px) {
   .mainFooter {
     max-width: 1150px;
@@ -293,8 +148,58 @@ button:hover {
     margin: 0.25em 0;
   }
 }
+
+
+
+
+/* ==== PANTALLA DE INICIO / MAIN ==== */
+.screen {
+  background: #ffffff;
+  border-radius: 2rem;
+  padding: 2.7rem 2.1rem;
+  width: auto;
+  max-width: 500px;
+  margin: 3.5rem auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.secondScreen{
+  display: flex;
+  flex-direction: row;
+}
+
+.screen p{
+  font-size: 1.3rem;
+  font-weight:bold;
+  margin-bottom: -1rem;
+}
+
+.screen .errorMessage {
+  color: #d32f2f;
+  font-size: 1.1rem;
+  margin-top: -1rem;
+}
+
 @media (max-width: 480px) {
   .screen {
     width: 90%;
+  }
+  .secondScreen {
+    flex-direction: column;
+    align-items: center;
+  }
+  #userName {
+    width: auto;
+  }
+  #startButton {
+    margin-top: 1rem;
+    width: 80%;
+  }
+  .screen p {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: -1rem;
   }
 }

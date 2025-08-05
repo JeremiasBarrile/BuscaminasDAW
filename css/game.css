@@ -8,7 +8,6 @@ body {
 }
 
 .gameTitle {
-  display: inline-block;
   font-family: 'Bungee', Arial, sans-serif;
   font-size: 4rem;
   letter-spacing: 2px;
@@ -19,40 +18,26 @@ body {
 }
 
 .gameScreen {
-  min-height: 90vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ==== CARD DEL JUEGO ==== */
-.gameCard {
-  display: inline-block;
   background: #fff;
   border-radius: 2rem;
-  box-shadow: 0 8px 32px #3c506822;
   padding: 2rem;
-  margin: 2.7rem auto 1rem auto;
+  margin: 0 4rem 0 4rem;
   text-align: center;
-}
+} 
 
-/* ==== TOPBAR ==== */
-.topBar {
+#secondBar {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.infoBox {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 1.08rem;
-  font-weight: 700;
+  flex-direction: row;  
+  align-items: center;  
+  justify-content: center; 
+  gap: 2rem;
+  margin: 1rem 0;
+  background-color: #949494;
+  padding: 0 1rem 0 1rem;
+  border-radius: 12px;
 }
 
 @media (max-width: 650px) {
@@ -70,63 +55,82 @@ body {
   }
 }
 
-.gameStatLabel {
-  font-size: 0.97rem;
-  font-weight: 500;
-  color: #42596b;
-  margin-left: 0.2rem;
+
+#secondBar span:first-child { /*Afecta unicamente al primer span, forzando a que el segundo span baje a la otra linea*/
+  font-size: 1.3rem;
+  display: block;
 }
 
-.difficultySelector select {
-  padding: 0.55rem 1rem;
-  border-radius: 1.1rem;
-  font-size: 1.02rem;
-  border: 2px solid #e3e6e8;
-  background: #f7f9fa;
-  color: #27374D;
-  font-weight: 500;
+#reset {
+  background: #ff9040;
+  width: 8rem;
 }
 
-/* ==== TABLERO ==== */
-#boardWrapper {
+#topBar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* separa uno de cada lado */
   align-items: center;
-  width: 100%;
-  overflow-x: auto;
-  background: transparent;
 }
 
-#matrix {
-  display: grid;
-  background-color: #383838;
-  gap: 3px;
-  padding: 3px;
-  width: auto;
-  max-width: none;
-  min-width: 0;
-}
+#goHomeBtn {
+  background: #4e5d6c;
+  color: #ffffff;
 
-/* ==== CELDAS ==== */
-.square {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  user-select: none;
+  font-weight: 600;
+  border-radius: 0.9rem;
+  font-size: 1.07rem;
   cursor: pointer;
-  border-radius: 6px;
-  transition: filter 0.2s, background-color 0.2s;
+  height: 3rem;
 }
-.square:hover { filter: brightness(1.13); }
 
-.none { background-color: #a0a0a0; }
-.none::before { content: ""; }
-.used { background-color: #d0d0d0; border: inset 2px #888; }
-.flagged::before { content: "🚩"; }
-.questioned::before { content: "❓"; }
-.mine-hit { background-color: #5c0000; }
-.mine-hit::before { content: "💣"; }
+#level {
+  font-size: 1.2rem;        
+  padding: 0 4rem;
+  border-radius: 1rem;
+  border: 2px solid #ccc;
+  background: #2b7a9e;
+  font-weight: bold;
+  cursor: pointer;
+  height: 3rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* REVISANDOO */
+/* REVISANDOO */
+/* REVISANDOO */
+/* REVISANDOO */
+/* REVISANDOO */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ==== MODAL ==== */
 .modal {
@@ -157,11 +161,6 @@ body {
   animation: modalPop 0.4s cubic-bezier(.44,1.26,.58,1.13) forwards;
 }
 
-@keyframes modalPop {
-  from { transform: scale(0.92); opacity: 0.4; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
 .modal-content.win {
   background: #eafcf3;
   border: 2.3px solid #21b170;
@@ -186,63 +185,44 @@ body {
   gap: 0.7rem;
 }
 
-.gameBtn {
-  background: #ff9d6a;
-  color: #fff;
-  font-size: 1.07rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 0.9rem;
-  padding: 0.7rem 1.2rem;
-  box-shadow: 0 1px 8px #ff9d6a18;
-  cursor: pointer;
-  transition: background 0.18s, box-shadow 0.18s;
-}
-.gameBtn:hover { background: #ff8243; }
 
-.secondaryBtn {
-  background: #e3e6e8;
-  color: #263343;
-  font-weight: 600;
-  border-radius: 0.9rem;
-  font-size: 1.07rem;
-  padding: 0.7rem 1.2rem;
-  border: none;
-  box-shadow: 0 2px 8px #3c50680c;
-  cursor: pointer;
-  transition: background 0.18s;
-}
-.secondaryBtn:hover { background: #cfd7de; }
 
-/* ==== RESPONSIVE ==== */
-@media (max-width: 650px) {
-  .gameCard {
-    width: 100%;
-    border-radius: 0;
-    margin: 0;
-    padding: 1rem;
-  }
-  .topBar {
-    flex-direction: column;
-    gap: 0.6rem;
-    align-items: stretch;
-    padding: 0.7rem 0;
-  }
-  #matrix {
-    gap: 2px;
-    padding: 2px;
-  }
-  .square {
-    font-size: 0.95rem;
-    border-radius: 3px;
-  }
-  .infoBox, .difficultySelector {
-    width: 100%;
-    justify-content: center;
-    font-size: 1.05rem;
-  }
-  .gameBtn {
-    font-size: 1.15rem;
-    width: 100%;
-  }
+/* ==== TABLERO ==== */
+#boardWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow-x: auto;
+  background: transparent;
 }
+
+#matrix {
+  display: grid;
+  background-color: #383838;
+  gap: 3px;
+  padding: 3px;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+}
+/* ==== CELDAS ==== */
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  user-select: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: filter 0.2s, background-color 0.2s;
+}
+.square:hover { filter: brightness(1.13); }
+
+.none { background-color: #a0a0a0; }
+.none::before { content: ""; }
+.used { background-color: #d0d0d0; border: inset 2px #888; }
+.flagged::before { content: "🚩"; }
+.questioned::before { content: "❓"; }
+.mine-hit { background-color: #5c0000; }
+.mine-hit::before { content: "💣"; }

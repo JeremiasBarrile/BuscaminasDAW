@@ -82,7 +82,6 @@ document.getElementById("leaderboardButton").addEventListener("click", function(
   if (leaderboard.classList.contains("hidden")) {
     leaderboard.classList.remove("hidden");
     btn.textContent = "Ocultar Ranking";
-    console.log("holajeje");
     showRanking();
   } else {
     leaderboard.classList.add("hidden");

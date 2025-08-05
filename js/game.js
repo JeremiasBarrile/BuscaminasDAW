@@ -31,7 +31,10 @@ var matrix = document.getElementById("matrix");
 var level = document.getElementById("level");
 var reset = document.getElementById("reset");
 var minesCounter = document.getElementById("minesCounter");
-
+const soundExplosion = new Audio('./audio/bomba.mp3');
+const soundVictory   = new Audio('./audio/victory.mp3');
+soundExplosion.load();
+soundVictory.load();
 // ==========================
 //    INICIALIZACIÓN
 // ==========================       
@@ -290,22 +293,27 @@ function revealCell(clicked){
       startTimer();
     }
 
-    if(compare(position,mines)){  //Compara si hay una mina en esa posicion
-        showMines();
-        stopTimer();
-        showGameResultModal("❌ ¡Perdiste! Intenta de nuevo.", false);
-    } else {
-      showCell(position);
+   if (compare(position, mines)) {
+  showMines();
+  stopTimer();
+
+  soundExplosion.currentTime = 0;
+  soundExplosion.play();
+  showGameResultModal("❌ ¡Perdiste! Intenta de nuevo.", false);
+} else {
+  showCell(position);
 
       var visited = Object.keys(visitedCells).length;
       var totalCells = currLevel.rows * currLevel.columns;
       var difference = visited + currLevel.mines;
 
-      if (difference === totalCells) {
-        gameOver = true;
-        stopTimer();
-        showGameResultModal("🏆 ¡Ganaste! ¡Felicitaciones!", true); 
-      }
+    if (difference === totalCells) {
+  gameOver = true;
+  stopTimer();
+  soundVictory.currentTime = 0;
+  soundVictory.play();
+  showGameResultModal("🏆 ¡Ganaste! ¡Felicitaciones!", true);
+}
     }}
 };
 function chording(clicked) { 

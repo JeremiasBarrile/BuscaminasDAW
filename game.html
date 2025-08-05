@@ -12,9 +12,10 @@
   <script src="js/game.js" defer></script>
 </head>
 <body>
-  <main class="gameScreen">
+  <main>
     <h1 class="gameTitle">Buscaminas</h1>
-    <section class="gameCard">
+    
+    <section class="screen">
       <div id="topBar">
         <button id="goHomeBtn">Volver</button>
         <select id="level">
@@ -22,7 +23,6 @@
           <option value="intermediate">Intermedio</option>
           <option value="advanced">Avanzado</option>
         </select>
-      </div>
       </div>
       <div id="secondBar">
         <div>
@@ -41,6 +41,8 @@
         <div id="matrix"></div>
       </div>
     </section>
+
+
    <div id="gameResultModal" class="modal">
       <div id="modalContent" class="modal-content">
           <p id="modalMessage">Resultado del juego</p>

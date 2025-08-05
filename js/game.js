@@ -48,19 +48,30 @@ minesCounter.textContent = (currLevel.mines) ;  // No hay minas marcadas
 //    FUNCIONES DE JUEGO
 // ==========================
 function generateMatrix(levelConfig) {
-  var {rows,columns} = levelConfig;     //Antes se ingresaban dos variables en la funcion, se reemplazo por el objeto levelConfig y se extraen las variables rows y columns
-    matrix.innerHTML = "";
-    matrix.style.gridTemplateColumns = `repeat(${columns}, 23px)`;
-    matrix.style.gridTemplateRows = `repeat(${rows}, 23px)`;
-    for (var i = 0; i < rows; i++) {
-      for (var j= 0; j < columns; j++){
-        var square = document.createElement("div");
-        square.id =`sq${i}_${j}`; // Genera squares con id "sq{fila}_{columna}"
-        square.className = "none square";
-        matrix.appendChild(square);//Genera cada div del square como un tag hijo de matrix
-      }
+  var rows = levelConfig.rows;
+  var columns = levelConfig.columns;
+
+  var cellSize = 35; // igual que en CSS width/height
+  var gap = 3;       // igual que en CSS gap
+
+  var matrix = document.getElementById("matrix");
+  matrix.innerHTML = "";
+
+  // Calcular ancho total para que entren columnas exactas
+  var totalWidth = (columns * cellSize) + (gap * (columns - 1));
+  matrix.style.width = totalWidth + "px";
+
+  for (var i = 0; i < rows; i++) {
+    for (var j = 0; j < columns; j++) {
+      var square = document.createElement("div");
+      square.className = "none square";
+      square.id = "sq" + i + "_" + j;
+      square.textContent = "";
+      matrix.appendChild(square);
     }
-};
+  }
+}
+
 function generateMines(levelConfig){
   var {rows,columns,mines} = levelConfig;
   var arrMines = [];
@@ -157,7 +168,7 @@ function showCell(coord) {            //ES5 no existe desestructuración (coord)
   }
 
   var cell = document.getElementById("sq" + row + "_" + col);
-  cell.className = "used";
+  cell.className = "used square";
 
   if (minesCounter === 0) {
     for (var j = 0; j < directions.length; j++) {
@@ -234,6 +245,11 @@ document.getElementById("playAgainBtn").onclick = function() {
 document.getElementById("goHomeBtn").onclick = function() {// Botón Volver al inicio
   window.location.href = "./index.html";
 };
+//VOLVER AL INICIO
+document.getElementById("goHomeBtnModal").onclick = function() { // Botón Volver al inicio
+  window.location.href = "./index.html";
+};
+
 // ==========================
 //    EVENTOS
 // ==========================
@@ -343,9 +359,3 @@ function chording(clicked) {
     }
   }
 }
-//VOLVER AL INICIO
-document.getElementById("goHomeBtn").onclick = function() { // Botón Volver al inicio
-  window.location.href = "./index.html";
-};
-
-// document.addEventListener("click", function)

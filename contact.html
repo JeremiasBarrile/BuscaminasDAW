@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee:wght@400&display=swap" rel="stylesheet">
   <title>Contacto - Buscaminas</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/contact.css" />
   <script src="js/contact.js" defer></script>
 </head>
 <body>
+  <h1 class="gameTitle">Buscaminas</h1>
   <main class="screen">
-    <button type="button" id="backToHome">Volver al inicio</button>
+    <button type="button" id="backHomeBtn">Volver al inicio</button>
     <h1>Contacto</h1>
     <form id="contactForm" autocomplete="off">
       <input type="text" class="textBox" id="contactName" placeholder="Tu nombre" />
@@ -22,7 +24,7 @@
       <textarea id="contactMessage" class="textBox" placeholder="Mensaje" rows="5"></textarea>
       <span class="errorMessage" id="messageError"></span>
       
-      <button type="submit">Enviar mensaje</button>
+      <button type="submit" id="sendMessageBtn">Enviar mensaje</button>
     </form>
   </main>
 </body>

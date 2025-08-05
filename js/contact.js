@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const nameError = document.getElementById('nameError');
   const emailError = document.getElementById('emailError');
   const messageError = document.getElementById('messageError');
-  const backBtn = document.getElementById('backToHome');
+  const backBtn = document.getElementById('backHomeBtn');
 
   // Validación y envío
   form.addEventListener('submit', function (e) {

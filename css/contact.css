@@ -1,8 +1,16 @@
-.screen{
+form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 1rem;
+  gap: 1rem; 
+  width:35rem;
+}
+#sendMessageBtn{
+  background-color: #ff9040;;
+}
+#backHomeBtn {
+  background: #4e5d6c;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.07rem;
 }

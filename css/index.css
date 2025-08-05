@@ -1,4 +1,3 @@
-
 #userName{
   width: 120%;
 }
@@ -77,35 +76,9 @@
   margin-left: 0.6rem;
 }
 
-
-/* ==== PANTALLA DE INICIO / MAIN ==== */
-.screen {
-  background: #ffffff;
-  border-radius: 2rem;
-  padding: 2.7rem 2.1rem;
-  width: auto;
-  max-width: 500px;
-  margin: 3.5rem auto 2rem auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
 .secondScreen{
   display: flex;
   flex-direction: row;
-}
-
-.screen p{
-  font-size: 1.3rem;
-  font-weight:bold;
-  margin-bottom: -1rem;
-}
-
-.screen .errorMessage {
-  color: #d32f2f;
-  font-size: 1.1rem;
-  margin-top: -1rem;
 }
 
 @media (max-width: 480px) {
@@ -115,6 +88,7 @@
   .secondScreen {
     flex-direction: column;
     align-items: center;
+    /* width: 100%; */
   }
   #userName {
     width: auto;
@@ -129,3 +103,6 @@
     margin-bottom: -1rem;
   }
 }
+
+
+

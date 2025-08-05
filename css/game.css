@@ -1,60 +1,13 @@
-/* ==== RESET Y BASE ==== */
-body {
-  font-family: Arial, sans-serif;
-  color: #333;
-  background-color: #f3f3f3;
-  margin: 0;
-  overflow-x: hidden;
-}
-
-.gameTitle {
-  font-family: 'Bungee', Arial, sans-serif;
-  font-size: 4rem;
-  letter-spacing: 2px;
-  text-align: center;
-  color: #1a2236;
-  margin-bottom: 1.2rem;
-  text-shadow: 1px 1px 0 #bfc9db, 2px 2px 3px #dbeafe80;
-}
-
-.gameScreen {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border-radius: 2rem;
-  padding: 2rem;
-  margin: 0 4rem 0 4rem;
-  text-align: center;
-} 
-
 #secondBar {
   display: flex;
   flex-direction: row;  
   align-items: center;  
   justify-content: center; 
   gap: 2rem;
-  margin: 1rem 0;
   background-color: #949494;
-  padding: 0 1rem 0 1rem;
+  padding: 0 2rem 0 2rem;
   border-radius: 12px;
 }
-
-@media (max-width: 650px) {
-  .gameTitle {
-    font-size: 2.2rem;
-    letter-spacing: 1px;
-    margin-bottom: 0.7rem;
-    padding: 0 0.5rem;
-  }
-  .topBar {
-    flex-direction: column;
-    gap: 0.6rem;
-    align-items: stretch;
-    padding: 0.7rem 0;
-  }
-}
-
 
 #secondBar span:first-child { /*Afecta unicamente al primer span, forzando a que el segundo span baje a la otra linea*/
   font-size: 1.3rem;
@@ -70,17 +23,19 @@ body {
   display: flex;
   justify-content: space-between; /* separa uno de cada lado */
   align-items: center;
+
 }
 
 #goHomeBtn {
   background: #4e5d6c;
   color: #ffffff;
-
   font-weight: 600;
   border-radius: 0.9rem;
   font-size: 1.07rem;
   cursor: pointer;
   height: 3rem;
+  padding: 1rem 2rem;
+  line-height: 0rem;
 }
 
 #level {
@@ -188,16 +143,9 @@ body {
 
 
 /* ==== TABLERO ==== */
-#boardWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  overflow-x: auto;
-  background: transparent;
-}
 
-#matrix {
+
+/* #matrix {
   display: grid;
   background-color: #383838;
   gap: 3px;
@@ -205,9 +153,9 @@ body {
   width: auto;
   max-width: none;
   min-width: 0;
-}
+} */
 /* ==== CELDAS ==== */
-.square {
+/* .square {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -217,12 +165,54 @@ body {
   border-radius: 6px;
   transition: filter 0.2s, background-color 0.2s;
 }
-.square:hover { filter: brightness(1.13); }
+.square:hover { filter: brightness(1.13); } */
 
 .none { background-color: #a0a0a0; }
 .none::before { content: ""; }
-.used { background-color: #d0d0d0; border: inset 2px #888; }
 .flagged::before { content: "🚩"; }
 .questioned::before { content: "❓"; }
 .mine-hit { background-color: #5c0000; }
 .mine-hit::before { content: "💣"; }
+.used {
+  background-color: #d0d0d0;
+  border: inset 4px #000000; 
+  box-sizing: border-box; /* el borde cuenta dentro del tamaño total */
+}
+
+
+#boardWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;               /* espacio entre borde y tablero */
+  background-color: #383838;     /* color de borde */
+  border-radius: 8px;          /* opcional, esquinas redondeadas */
+}
+
+#matrix {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #383838;
+  gap: 3px;
+}
+
+.square {
+  width: 35px;           /* fijo */
+  height: 35px;          /* fijo */
+  flex: 0 0 35px;        /* asegura que flexbox no lo estire ni reduzca */
+  display: flex;
+  align-items: center;   /* centra vertical */
+  justify-content: center; /* centra horizontal */
+  font-size: 1.4rem;       /* tamaño de texto */
+  background-color: #a0a0a0;
+  border-radius: 6px;
+  user-select: none;       /* evita que el usuario pueda seleccionar el texto */
+  cursor: pointer;
+  overflow: hidden;      /* oculta lo que se salga */
+  text-overflow: clip;   /* corta texto sin puntos suspensivos */
+  white-space: nowrap;   /* no permite salto de línea */
+}
+
+.none:hover {
+  opacity: 0.80;
+}

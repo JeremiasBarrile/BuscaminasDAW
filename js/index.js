@@ -2,9 +2,11 @@ var userNameInput = document.getElementById('userName');
 var startButton = document.getElementById('startButton');
 var errorMessage = document.getElementById('errorMessage');
 var leaderboardButton = document.getElementById('leaderboardButton');
-var closeLeaderboardButton = document.getElementById('closeLeaderboardButton');
 var leaderboard = document.getElementById('leaderboard');
+var tbody = document.querySelector("#leaderboardTable tbody");
+var mainFooter = document.querySelector(".mainFooter");
 
+var nivelSeleccionado = "beginner"; // Nivel por defecto
 
 // Validar nombre y redirigir a game.html
 startButton.addEventListener('click', function () {
@@ -26,12 +28,13 @@ function saveUserName(){
   console.log("nombre:",name);
 }
 
-var nivelSeleccionado = "beginner"; // Nivel por defecto
+
+
 function showRanking() {
-  var juegos = JSON.parse(localStorage.getItem("ranking")) || [];
+  var juegos = JSON.parse(localStorage.getItem("ranking")) || []; //parsea el json a objeto o lo crea
   var filtro = nivelSeleccionado;
-  var tbody = document.querySelector("#leaderboardTable tbody");
-  tbody.innerHTML = "";
+
+  tbody.innerHTML = "";               //Vacia el contenido interno de tbody
 
   var juegosFiltrados = [];
   for (var i = 0; i < juegos.length; i++) {
@@ -65,49 +68,46 @@ function showRanking() {
     fila.appendChild(celdaNombre);
     fila.appendChild(celdaTiempo);
     fila.appendChild(celdaFecha);
-
     tbody.appendChild(fila);
   }
 }
 
-
-
-
-
 // Mostrar ranking al abrir el leaderboard
-document.getElementById("leaderboardButton").addEventListener("click", function() {
-  var leaderboard = document.getElementById("leaderboard");
-  var btn = this;
-
-  if (leaderboard.classList.contains("hidden")) {
-    leaderboard.classList.remove("hidden");
-    btn.textContent = "Ocultar Ranking";
+leaderboardButton.addEventListener("click", function() {
+  if (leaderboard.className.indexOf("hidden") !== -1) { //0,1,2,3 depende la posicion que lo encuentre, -1 si no lo encuentra
+    // Mostrar ranking
+    leaderboard.className = leaderboard.className.replace("hidden", "").trim();
+    this.textContent = "Ocultar Ranking";
     showRanking();
+
+    if (window.innerHeight < 850) {
+      mainFooter.style.display = "none";
+    }
   } else {
-    leaderboard.classList.add("hidden");
-    btn.textContent = "Ver Ranking";
+    // Ocultar ranking
+    leaderboard.className += " hidden";
+    this.textContent = "Ver Ranking";
+
+    if (window.innerHeight < 850) {
+      mainFooter.style.display = "flex";
+    }
   }
 });
+
 
 var levelFilter = document.getElementById("levelFilter");
 levelFilter.addEventListener("change", showRanking);// Actualizar ranking al cambiar el filtro
 
-//TESTEANDO BOTONES SELECTORES FILTRO
-var nivelSeleccionado = "beginner"; // Nivel por defecto
+//Botones de filtro
+var nivelSeleccionado = "beginner";
 var botones = document.querySelectorAll("#levelFilter .level-btn");
-
 for (var i = 0; i < botones.length; i++) {
   botones[i].addEventListener("click", function() {
-    // Quitar clase activa a todos
     for (var j = 0; j < botones.length; j++) {
       botones[j].classList.remove("active");
     }
-
-    // Activar el botón clickeado
-    this.classList.add("active");
+    this.classList.add("active");// Activa el botón presionado
     nivelSeleccionado = this.getAttribute("data-level");
-
-    // Mostrar ranking
     showRanking();
   });
 }

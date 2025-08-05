@@ -159,3 +159,45 @@
   padding: 0;
 }
 
+@media (max-height: 850px) {
+  .gameTitle {
+    font-size: clamp(1.2rem, 6vw, 2.5rem); /* más chico */
+    margin: 0.3rem 0 0.5rem 0; /* menos espacio arriba y abajo */
+  }
+  .screen{
+    padding: 1rem;
+    gap:0.2rem;
+  }
+}
+
+@media (max-height: 850px) {
+  .mainFooter {
+    padding: 0.6rem 0 0.5rem 0;
+    font-size: 0.95rem;
+    border-radius: 1.3rem;
+    flex-direction: row; 
+    
+  }
+
+  .footerLeft {
+    font-size: 1rem;            /* título más compacto */
+    letter-spacing: 0.3px;
+  }
+
+  .footerBtn {
+    padding: 0.6rem 1rem;       /* botones más bajos */
+    font-size: 1.1rem;
+    border-radius: 1.4rem;
+  }
+  .footerRight .footerBtn {
+    font-size: 0;             /* oculta el texto manteniendo el icono de GitHub */
+  }
+  .footerRight .footerBtn::after {
+    content: "GitHub";
+    font-size: 1.1rem;
+  }
+  .mainFooter div:first-child {    /* oculta el primer div */
+    display: none; 
+  }
+
+}

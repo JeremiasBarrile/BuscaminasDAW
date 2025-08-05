@@ -72,40 +72,8 @@
 
 #startButton{
   background: #ff9d6a;
-  width: 65%;
-  /* margin-left: 0.6rem; */
+  width: 74%;
+  margin-left: 0.6rem;
 }
-
-.secondScreen{
-  display: flex;
-  flex-direction: row;
-}
-
-
-
-
-
-@media (max-width: 480px) {
-  .screen {
-    width: 90%;
-  }
-  .secondScreen {
-    flex-direction: column;
-    align-items: center;
-  }
-  #userName {
-    width: auto;
-  }
-  #startButton {
-    margin-top: 1rem;
-    width: 80%;
-  }
-  .screen p {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-bottom: -1rem;
-  }
-}
-
 
 

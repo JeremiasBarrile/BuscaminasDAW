@@ -11,13 +11,10 @@ var nivelSeleccionado = "beginner"; // Nivel por defecto
 // Validar nombre y redirigir a game.html
 startButton.addEventListener('click', function () {
   var name = userNameInput.value.trim();
-
   if (name.length < 3) {
     errorMessage.textContent = 'El nombre debe tener al menos 3 caracteres.';
-
     return;
   }
-
   localStorage.setItem('userName', name);
   window.location.href = 'game.html';
 });
@@ -27,8 +24,6 @@ function saveUserName(){
   var name = document.getElementById("userName").value.trim();
   console.log("nombre:",name);
 }
-
-
 
 function showRanking() {
   var juegos = JSON.parse(localStorage.getItem("ranking")) || []; //parsea el json a objeto o lo crea

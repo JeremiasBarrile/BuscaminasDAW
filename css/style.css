@@ -32,8 +32,7 @@ body {
   padding: 1rem 1.4rem;
   width: 70%;
   background: #f7f9fa;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
+  box-sizing: border-box;  /*Limita el tamaño para dentro del objeto*/
 }
 button {
   font-size: 1.17rem;

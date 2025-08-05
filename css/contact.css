@@ -14,3 +14,13 @@ form {
   font-weight: 600;
   font-size: 1.07rem;
 }
+
+/* Responsive */
+@media (max-width: 750px) {
+  #contactForm{
+    width: 150%;
+  }
+  #sendMessageBtn{
+    font-size: 1.4rem;
+  }
+}

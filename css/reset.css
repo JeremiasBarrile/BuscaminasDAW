@@ -1,6 +1,67 @@
-/* ==== RESET Y GENERALES ==== */
+/* ==== RESET BÁSICO ==== */
+
+/* 1. Eliminar márgenes y paddings por defecto */
 * {
   margin: 0;
   padding: 0;
-  /* box-sizing: border-box; */
+  box-sizing: border-box;
+}
+
+/* 2. Heredar tipografía en todos los elementos */
+html {
+  font-size: 100%; /* 16px por defecto */
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  background-color: #fff;
+  color: #000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 3. Quitar estilos por defecto en listas */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 4. Quitar subrayado en links y heredar color */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 5. Asegurar que las imágenes y videos no excedan su contenedor */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 6. Asegurar que los inputs y botones usen la misma tipografía */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+/* 7. Hacer que los botones sean clicables siempre */
+button {
+  cursor: pointer;
+}
+
+/* 8. Asegurar consistencia en tablas */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }

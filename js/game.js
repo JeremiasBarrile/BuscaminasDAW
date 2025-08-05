@@ -23,6 +23,9 @@ var firstClick = true;                        //Bandera de primer click en juego
 var gameOver =false;                          //Bandera de juego finalizado
 var mines = [];
 var visitedCells = {};
+var soundExplosion = new Audio('./audio/bomba.mp3');
+var soundVictory   = new Audio('./audio/victory.mp3');
+
 
 // ==========================
 //    REFERENCIAS AL DOM
@@ -31,15 +34,13 @@ var matrix = document.getElementById("matrix");
 var level = document.getElementById("level");
 var reset = document.getElementById("reset");
 var minesCounter = document.getElementById("minesCounter");
-const soundExplosion = new Audio('./audio/bomba.mp3');
-const soundVictory   = new Audio('./audio/victory.mp3');
-soundExplosion.load();
-soundVictory.load();
+
 // ==========================
 //    INICIALIZACIÓN
 // ==========================       
 generateMatrix(currLevel);
-
+soundExplosion.load();
+soundVictory.load();
 /* Variables contador minas */
 minesCounter.textContent = (currLevel.mines) ;  // No hay minas marcadas
 

@@ -229,7 +229,7 @@ document.getElementById("playAgainBtn").onclick = function() {
 };
 
 document.getElementById("goHomeBtn").onclick = function() {// Botón Volver al inicio
-  window.location.href = "index.html";
+  window.location.href = "./index.html";
 };
 // ==========================
 //    EVENTOS

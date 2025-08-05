@@ -1,3 +1,18 @@
+//Se carga local storage
+var data = [
+  { "name": "Camila", "date": "2025-08-03 18:34", "gameLevel": "beginner", "time": 64 },
+  { "name": "Jose", "date": "2025-08-03 19:00", "gameLevel": "advanced", "time": 98 },
+  { "name": "Lucía", "date": "2025-08-03 19:15", "gameLevel": "intermediate", "time": 75 },
+  { "name": "Jere", "date": "2025-08-03 19:20", "gameLevel": "beginner", "time": 58 },
+  { "name": "Ana", "date": "2025-08-03 19:30", "gameLevel": "advanced", "time": 105 },
+  { "name": "Jere", "date": "2025-08-03 19:45", "gameLevel": "beginner", "time": 52 },
+  { "name": "Sofía", "date": "2025-08-03 20:05", "gameLevel": "intermediate", "time": 88 },
+  { "name": "Pedro", "date": "2025-08-03 20:20", "gameLevel": "advanced", "time": 112 },
+  { "name": "Fede", "date": "2025-08-03 20:35", "gameLevel": "beginner", "time": 47 },
+  { "name": "Diego", "date": "2025-08-03 20:50", "gameLevel": "intermediate", "time": 73 },
+];
+localStorage.setItem("ranking", JSON.stringify(data));
+////////////////////////////////////////////////////////
 var userNameInput = document.getElementById('userName');
 var startButton = document.getElementById('startButton');
 var errorMessage = document.getElementById('errorMessage');

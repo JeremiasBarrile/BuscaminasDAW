@@ -73,13 +73,17 @@
 #startButton{
   background: #ff9d6a;
   width: 65%;
-  margin-left: 0.6rem;
+  /* margin-left: 0.6rem; */
 }
 
 .secondScreen{
   display: flex;
   flex-direction: row;
 }
+
+
+
+
 
 @media (max-width: 480px) {
   .screen {
@@ -88,7 +92,6 @@
   .secondScreen {
     flex-direction: column;
     align-items: center;
-    /* width: 100%; */
   }
   #userName {
     width: auto;
